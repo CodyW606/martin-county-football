@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martin County Cardinals - History</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header and Navigation */
+        .header {
+            background-color: #cf0a2c; /* Cardinal Red */
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            z-index: 101;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+            margin-right: 0;
+        }
+
+        /* Mobile Menu Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu li a:hover {
+            color: #aed4e6; /* Powder Blue */
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: #aed4e6; /* Powder Blue */
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu li a.active {
+            color: #aed4e6; /* Powder Blue */
+        }
+
+        .nav-menu li a.active::after {
+            width: 100%;
+        }
+
+        .search-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: white;
+            z-index: 101;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #cf0a2c; /* Cardinal Red */
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* History Section */
+        .history-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .history-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #cf0a2c;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border: 4px solid #cf0a2c;
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .timeline-left {
+            left: 0;
+        }
+
+        .timeline-right {
+            left: 50%;
+        }
+
+        .timeline-left::after {
+            right: -17px;
+        }
+
+        .timeline-right::after {
+            left: -17px;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-year {
+            font-weight: bold;
+            color: #cf0a2c;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .stats-section {
+            margin-top: 4rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #cf0a2c;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .chart-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-size: 1.3rem;
+        }
+
+        #recordsByYear, #winsVsLosses {
+            width: 100%;
+            height: 400px;
+        }
+
+        .data-section {
+            margin-top: 4rem;
+        }
+
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex-grow: 1;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .data-table th {
+            background-color: #cf0a2c;
+            color: white;
+            text-align: left;
+            padding: 1rem;
+        }
+
+        .data-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .data-table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #cf0a2c; /* Cardinal Red */
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: #aed4e6; /* Powder Blue */
+            transform: translateY(-3px);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: #cf0a2c;
+                gap: 2rem;
+                transition: right 0.3s ease;
+                z-index: 100;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu li a {
+                font-size: 1.2rem;
+            }
+            
+            /* Menu toggle animation */
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 15px;
+            }
+            
+            .timeline-right {
+                left: 0%;
+            }
+            
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header and Navigation -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="teamlogo.png" alt="Cardinals Logo" class="logo">
+        </div>
+        
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="roster.html">Roster</a></li>
+                <li><a href="staff.html">Staff</a></li>
+                <li><a href="history.html" class="active">History</a></li>
+            </ul>
+        </nav>
+        
+        <div class="search-icon">
+            <i class="fas fa-search"></i>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <div class="page-title">
+        <h1>Football History</h1>
+        <p>Martin County Cardinals (Previously Sheldon Clark)</p>
+    </div>
+
+    <!-- History Section -->
+    <div class="history-container">
+        <div class="history-intro">
+            <p>Since the program's founding in 1981, the Martin County Cardinals (previously Sheldon Clark High School) have built a rich football tradition. This page celebrates our history, remarkable achievements, and memorable moments that have shaped our program.</p>
+        </div>
+
+        <!-- Timeline of Key Moments -->
+        <div class="timeline">
+            <div class="timeline-item timeline-left">
+                <div class="timeline-content">
+                    <div class="timeline-year">1981</div>
+                    <p>Sheldon Clark High School football program established under Head Coach Earl Hutchinson.</p>
+                </div>
+            </div>
+            <div class="timeline-item timeline-right">
+                <div class="timeline-content">
+                    <div class="timeline-year">2019</div>
+                    <p>Sheldon Clark transitions to Martin County High School, beginning a new era as the Cardinals.</p>
+                </div>
+            </div>
+            <!-- More timeline items will be added dynamically -->
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-section">
+            <h2 class="chart-title">Program Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalGames">0</div>
+                    <div class="stat-label">Total Games</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalWins">0</div>
+                    <div class="stat-label">Total Wins</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalLosses">0</div>
+                    <div class="stat-label">Total Losses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="winPercentage">0%</div>
+                    <div class="stat-label">Win Percentage</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Win-Loss Record By Year</h3>
+                <canvas id="recordsByYear"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Overall Win-Loss Record</h3>
+                <canvas id="winsVsLosses"></canvas>
+            </div>
+        </div>
+
+        <!-- Historical Data Section -->
+        <div class="data-section">
+            <h2 class="chart-title">Historical Game Data</h2>
+            
+            <div class="filter-controls">
+                <select id="yearFilter" class="filter-select">
+                    <option value="all">All Years</option>
+                </select>
+                <select id="opponentFilter" class="filter-select">
+                    <option value="all">All Opponents</option>
+                </select>
+                <select id="resultFilter" class="filter-select">
+                    <option value="all">All Results</option>
+                    <option value="W">Wins</option>
+                    <option value="L">Losses</option>
+                    <option value="T">Ties</option>
+                </select>
+            </div>
+
+            <div id="dataTableContainer">
+                <div class="loading">Loading historical data...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="social-icons">
+            <a href="https://www.facebook.com/MCCardinalFootball" class="social-icon" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://x.com/MartinCoFball" class="social-icon" target="_blank">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+        <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            });
+            
+            // Close menu when a link is clicked
+            const navLinks = document.querySelectorAll('.nav-menu li a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                });
+            });
+
+            // Load and process Excel data
+            loadExcelData();
+        });
+
+        async function loadExcelData() {
+            try {
+                // Fetch the Excel file
+                const response = await fetch('Martin County Football Spreadsheet.xlsx');
+                const arrayBuffer = await response.arrayBuffer();
+                
+                // Read the workbook
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                
+                // Get the first sheet
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                
+                // Convert to JSON
+                const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                
+                // Process the data
+                processHistoricalData(jsonData);
+            } catch (error) {
+                console.error('Error loading or processing Excel data:', error);
+                document.getElementById('dataTableContainer').innerHTML = 
+                    `<div class="error-message">
+                        Unable to load historical data. Please ensure the Excel file is available.
+                     </div>`;
+            }
+        }
+
+        function processHistoricalData(data) {
+            // Calculate overall statistics
+            const totalGames = data.length;
+            const wins = data.filter(game => game.Result === 'W').length;
+            const losses = data.filter(game => game.Result === 'L').length;
+            const ties = data.filter(game => game.Result === 'T').length;
+            const winPercentage = ((wins + (ties * 0.5)) / totalGames * 100).toFixed(1);
+            
+            // Update stat cards
+            document.getElementById('totalGames').textContent = totalGames;
+            document.getElementById('totalWins').textContent = wins;
+            document.getElementById('totalLosses').textContent = losses;
+            document.getElementById('winPercentage').textContent = winPercentage + '%';
+            
+            // Get unique years and opponents for filters
+            const years = [...new Set(data.map(game => game.Year))].sort();
+            const opponents = [...new Set(data.map(game => game.Opponent))].sort();
+            
+            // Populate filter dropdowns
+            const yearFilter = document.getElementById('yearFilter');
+            const opponentFilter = document.getElementById('opponentFilter');
+            
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearFilter.appendChild(option);
+            });
+            
+            opponents.forEach(opponent => {
+                const option = document.createElement('option');
+                option.value = opponent;
+                option.textContent = opponent;
+                opponentFilter.appendChild(option);
+            });
+            
+            // Create records by year chart
+            createRecordsByYearChart(data, years);
+            
+            // Create overall win-loss chart
+            createWinLossChart(wins, losses, ties);
+            
+            // Generate and display data table
+            displayDataTable(data);
+            
+            // Add filter event listeners
+            yearFilter.addEventListener('change', () => filterData(data));
+            opponentFilter.addEventListener('change', () => filterData(data));
+            document.getElementById('resultFilter').addEventListener('change', () => filterData(data));
+
+            // Add more significant years to timeline
+            addTimelineItems(data);
+        }
+
+        function createRecordsByYearChart(data, years) {
+            // Group data by year
+            const yearlyStats = years.map(year => {
+                const gamesInYear = data.filter(game => game.Year === year);
+                const wins = gamesInYear.filter(game => game.Result === 'W').length;
+                const losses = gamesInYear.filter(game => game.Result === 'L').length;
+                const ties = gamesInYear.filter(game => game.Result === 'T').length;
+                
+                return {
+                    year,
+                    wins,
+                    losses,
+                    ties
+                };
+            });
+            
+            // Create chart
+            const ctx = document.getElementById('recordsByYear').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: yearlyStats.map(stat => stat.year),
+                    datasets: [
+                        {
+                            label: 'Wins',
+                            data: yearlyStats.map(stat => stat.wins),
+                            backgroundColor: '#4CAF50',
+                            borderColor: '#388E3C',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Losses',
+                            data: yearlyStats.map(stat => stat.losses),
+                            backgroundColor: '#F44336',
+                            borderColor: '#D32F2F',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Ties',
+                            data: yearlyStats.map(stat => stat.ties),
+                            backgroundColor: '#FFC107',
+                            borderColor: '#FFA000',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Games'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createWinLossChart(wins, losses, ties) {
+            const ctx = document.getElementById('winsVsLosses').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Wins', 'Losses', 'Ties'],
+                    datasets: [{
+                        data: [wins, losses, ties],
+                        backgroundColor: ['#4CAF50', '#F44336', '#FFC107'],
+                        borderColor: ['#388E3C', '#D32F2F', '#FFA000'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayDataTable(data, filtered = false) {
+            const container = document.getElementById('dataTableContainer');
+            
+            if (!filtered) {
+                // If not filtering, use the most recent 25 games for initial display
+                data = [...data].sort((a, b) => {
+                    // Sort by year descending, then by date within year
+                    if (a.Year !== b.Year) return b.Year - a.Year;
+                    
+                    // Convert date strings to comparable values (assuming MM-DD format)
+                    const aDateParts = a.Date.split('-');
+                    const bDateParts = b.Date.split('-');
+                    
+                    // Compare months first
+                    if (aDateParts[0] !== bDateParts[0]) return bDateParts[0] - aDateParts[0];
+                    
+                    // Then compare days
+                    return bDateParts[1] - aDateParts[1];
+                }).slice(0, 25);
+            }
+            
+            // Create table HTML
+            let tableHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Date</th>
+                            <th>Opponent</th>
+                            <th>Score</th>
+                            <th>Result</th>
+                            <th>Location</th>
+                            <th>Coach</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            data.forEach(game => {
+                // Determine result class for styling
+                let resultClass = '';
+                if (game.Result === 'W') resultClass = 'text-success';
+                else if (game.Result === 'L') resultClass = 'text-danger';
+                else resultClass = 'text-warning';
+                
+                tableHTML += `
+                    <tr>
+                        <td>${game.Year}</td>
+                        <td>${game.Date}</td>
+                        <td>${game.Opponent}</td>
+                        <td>${game.Us} - ${game.Them}</td>
+                        <td class="${resultClass}">${game.Result}</td>
+                        <td>${game.Location || ''}</td>
+                        <td>${game.Coach || ''}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            if (data.length === 0) {
+                tableHTML = '<div class="error-message">No games match your filter criteria.</div>';
+            }
+            
+            container.innerHTML = tableHTML;
+        }
+
+        function filterData(data) {
+            const yearFilter = document.getElementById('yearFilter').value;
+            const opponentFilter = document.getElementById('opponentFilter').value;
+            const resultFilter = document.getElementById('resultFilter').value;
+            
+            let filtered = [...data];
+            
+            if (yearFilter !== 'all') {
+                filtered = filtered.filter(game => game.Year.toString() === yearFilter);
+            }
+            
+            if (opponentFilter !== 'all') {
+                filtered = filtered.filter(game => game.Opponent === opponentFilter);
+            }
+            
+            if (resultFilter !== 'all') {
+                filtered = filtered.filter(game => game.Result === resultFilter);
+            }
+            
+            displayDataTable(filtered, true);
+        }
+
+        function addTimelineItems(data) {
+            const timeline = document.querySelector('.timeline');
+            
+            // Find first winning season
+            const yearlyStats = {};
+            data.forEach(game => {
+                if (!yearlyStats[game.Year]) {
+                    yearlyStats[game.Year] = { wins: 0, losses: 0, ties: 0 };
+                }
+                
+                if (game.Result === 'W') yearlyStats[game.Year].wins++;
+                else if (game.Result === 'L') yearlyStats[game.Year].losses++;
+                else yearlyStats[game.Year].ties++;
+            });
+            
+            const firstWinningSeason = Object.entries(yearlyStats)
+                .find(([year, stats]) => stats.wins > stats.losses);
+            
+            if (firstWinningSeason) {
+                const [year, stats] = firstWinningSeason;
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item timeline-left';
+                timelineItem.innerHTML = `
+                    <div class="timeline-content">
+                        <div class="timeline-year">${year}</div>
+                        <p>First winning season in program history with a record of ${stats.wins}-${stats.losses}-${stats.ties}.</p>
+                    </div>
+                `;
+                timeline.appendChild(timelineItem);
+            }
+            
+            // Add more timeline items as needed
+        }
+    </script>
+</body>
+</html>
