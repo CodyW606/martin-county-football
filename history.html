@@ -663,6 +663,24 @@
     </footer>
 
     <script>
+        // Add helper function to format Excel dates
+        function formatDate(excelDate) {
+            // If the date is already in a string format that's not a number, return it as is
+            if (isNaN(excelDate) || typeof excelDate === 'string' && excelDate.includes('-')) {
+                return excelDate;
+            }
+            
+            // Excel dates are number of days since December 30, 1899
+            const millisecondsPerDay = 24 * 60 * 60 * 1000;
+            const jsDate = new Date((excelDate - 25569) * millisecondsPerDay); // 25569 is the offset for Jan 1, 1970
+            
+            // Format as MM/DD/YYYY
+            const month = jsDate.getMonth() + 1; // Month is 0-indexed
+            const day = jsDate.getDate();
+            
+            return `${month}/${day}`;
+        }
+    
         // Mobile menu toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.querySelector('.menu-toggle');
@@ -973,12 +991,12 @@
                 
                 row.innerHTML = `
                     <td>${game.Year}</td>
-                    <td>${game.Date}</td>
+                    <td>${formatDate(game.Date)}</td>
                     <td>${game.Opponent}</td>
                     <td class="${resultClass}">${game.Result}</td>
                     <td>${game.Us}-${game.Them}</td>
-                    <td>${game.Where ? game.Where : ''} ${game.Location ? game.Location : ''}</td>
-                    <td>${game.Coach ? game.Coach : ''}</td>
+                    <td>${game.Where || ''}</td>
+                    <td>${game.Coach || ''}</td>
                 `;
                 
                 tableBody.appendChild(row);
