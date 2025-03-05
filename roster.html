@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martin County Cardinals - Roster</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header and Navigation */
+        .header {
+            background-color: #cf0a2c; /* Cardinal Red */
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            z-index: 101;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+            margin-right: 0;
+        }
+
+        /* Mobile Menu Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu li a:hover {
+            color: #aed4e6; /* Powder Blue */
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: #aed4e6; /* Powder Blue */
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu li a.active {
+            color: #aed4e6; /* Powder Blue */
+        }
+
+        .nav-menu li a.active::after {
+            width: 100%;
+        }
+
+        .search-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: white;
+            z-index: 101;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #cf0a2c; /* Cardinal Red */
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* Roster Section */
+        .roster-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .sort-btn {
+            background-color: #cf0a2c; /* Cardinal Red */
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .sort-btn:hover {
+            background-color: #9e0823;
+            transform: translateY(-2px);
+        }
+
+        .sort-btn.active {
+            background-color: #aed4e6; /* Powder Blue */
+            color: #333;
+        }
+
+        .roster-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .roster-table th {
+            background-color: #cf0a2c; /* Cardinal Red */
+            color: white;
+            text-align: left;
+            padding: 1rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .roster-table th:hover {
+            background-color: #9e0823;
+        }
+
+        .roster-table th::after {
+            content: '';
+            position: absolute;
+            right: 10px;
+            opacity: 0.3;
+        }
+
+        .roster-table th.sort-asc::after {
+            content: '▲';
+            opacity: 1;
+        }
+
+        .roster-table th.sort-desc::after {
+            content: '▼';
+            opacity: 1;
+        }
+
+        .roster-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .roster-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .roster-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .roster-table tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .player-number {
+            font-weight: bold;
+            color: #cf0a2c; /* Cardinal Red */
+        }
+
+        .player-name {
+            font-weight: bold;
+        }
+
+        .player-position {
+            color: #666;
+        }
+
+        .player-year {
+            text-align: center;
+        }
+
+        /* Position Key */
+        .position-key {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .position-key h3 {
+            margin-bottom: 1rem;
+            color: #cf0a2c; /* Cardinal Red */
+            font-size: 1.2rem;
+        }
+
+        .positions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .position-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .position-abbr {
+            font-weight: bold;
+            margin-right: 0.5rem;
+            color: #cf0a2c; /* Cardinal Red */
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #cf0a2c; /* Cardinal Red */
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: #aed4e6; /* Powder Blue */
+            transform: translateY(-3px);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: #cf0a2c;
+                gap: 2rem;
+                transition: right 0.3s ease;
+                z-index: 100;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu li a {
+                font-size: 1.2rem;
+            }
+            
+            /* Menu toggle animation */
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .roster-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header and Navigation -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="teamlogo.png" alt="Cardinals Logo" class="logo">
+        </div>
+        
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="roster.html" class="active">Roster</a></li>
+                <li><a href="staff.html">Staff</a></li>
+                <li><a href="history.html">History</a></li>
+            </ul>
+        </nav>
+        
+        <div class="search-icon">
+            <i class="fas fa-search"></i>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <div class="page-title">
+        <h1>2025 Team Roster</h1>
+        <p>Martin County Cardinals</p>
+    </div>
+
+    <!-- Roster Section -->
+    <div class="roster-container">
+        <div class="filter-controls">
+            <button class="sort-btn active" data-sort="number">Sort by Number</button>
+            <button class="sort-btn" data-sort="name">Sort by Name</button>
+            <button class="sort-btn" data-sort="position">Sort by Position</button>
+            <button class="sort-btn" data-sort="year">Sort by Grade</button>
+        </div>
+
+        <table class="roster-table" id="rosterTable">
+            <thead>
+                <tr>
+                    <th data-sort="number" class="sort-asc">#</th>
+                    <th data-sort="name">Name</th>
+                    <th data-sort="position">Position</th>
+                    <th data-sort="year">Yr.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="player-number">0</td>
+                    <td class="player-name">Brayden Estep</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">3</td>
+                    <td class="player-name">Jerrod Haney</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">6</td>
+                    <td class="player-name">Parker Watts</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">7</td>
+                    <td class="player-name">Braxton Maynard</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">Jr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">9</td>
+                    <td class="player-name">Weston Jude</td>
+                    <td class="player-position">WR, LB</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">10</td>
+                    <td class="player-name">Caleb Horn</td>
+                    <td class="player-position">PK</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">11</td>
+                    <td class="player-name">Devan Maynard</td>
+                    <td class="player-position">QB, DB</td>
+                    <td class="player-year">Jr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">12</td>
+                    <td class="player-name">Aiden Horn</td>
+                    <td class="player-position">RB, LB</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">13</td>
+                    <td class="player-name">Jaycob Bowman</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">14</td>
+                    <td class="player-name">Parker Maynard</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">Fr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">15</td>
+                    <td class="player-name">Chase Stacy</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">16</td>
+                    <td class="player-name">Jonothan Cline</td>
+                    <td class="player-position">RB, DB</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">17</td>
+                    <td class="player-name">Brock Hedrick</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">Fr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">20</td>
+                    <td class="player-name">Gavin Stepp</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">Jr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">21</td>
+                    <td class="player-name">Brody Mollett</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">22</td>
+                    <td class="player-name">Cole Jewell</td>
+                    <td class="player-position">FB, LB</td>
+                    <td class="player-year">Fr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">23</td>
+                    <td class="player-name">Julian Stafford</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">24</td>
+                    <td class="player-name">Jeremy Begley</td>
+                    <td class="player-position">TE, LB</td>
+                    <td class="player-year">Fr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">25</td>
+                    <td class="player-name">Damian Cheek</td>
+                    <td class="player-position">RB, LB</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">28</td>
+                    <td class="player-name">Crayson Lafferty</td>
+                    <td class="player-position">RB, LB</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">30</td>
+                    <td class="player-name">Haskell Fuggett</td>
+                    <td class="player-position">TE, DE</td>
+                    <td class="player-year">Jr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">34</td>
+                    <td class="player-name">Samuel Moore</td>
+                    <td class="player-position">TE, CB</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">35</td>
+                    <td class="player-name">Skyler Morrison</td>
+                    <td class="player-position">WR, CB</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">38</td>
+                    <td class="player-name">James Begley</td>
+                    <td class="player-position">RB, LB</td>
+                    <td class="player-year">Fr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">44</td>
+                    <td class="player-name">Brayden Fannin</td>
+                    <td class="player-position">TE, DE</td>
+                    <td class="player-year">Fr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">50</td>
+                    <td class="player-name">Brayden Chapman</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">Jr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">52</td>
+                    <td class="player-name">Zachary Hamilton</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">55</td>
+                    <td class="player-name">Brandon Wells</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">56</td>
+                    <td class="player-name">Blake Stacy</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">Fr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">57</td>
+                    <td class="player-name">Alexander Lowe</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">58</td>
+                    <td class="player-name">Caden Young</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">60</td>
+                    <td class="player-name">Kendal Mullins</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">62</td>
+                    <td class="player-name">Braxton Moore</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">64</td>
+                    <td class="player-name">Mason Mccoy</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">65</td>
+                    <td class="player-name">Corey Parsley</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">67</td>
+                    <td class="player-name">Payton Ward</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">70</td>
+                    <td class="player-name">Bryson Osborne</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">So.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">71</td>
+                    <td class="player-name">Peyton Lowe</td>
+                    <td class="player-position"></td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">75</td>
+                    <td class="player-name">Liam May</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">Fr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">77</td>
+                    <td class="player-name">Braxton Carter</td>
+                    <td class="player-position">OL, DL</td>
+                    <td class="player-year">Fr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">81</td>
+                    <td class="player-name">Kaleb Robinson</td>
+                    <td class="player-position">TE, LB</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">84</td>
+                    <td class="player-name">Jack Cline</td>
+                    <td class="player-position">RB, DB</td>
+                    <td class="player-year">Sr.</td>
+                </tr>
+                <tr>
+                    <td class="player-number">88</td>
+                    <td class="player-name">Bailey Crum</td>
+                    <td class="player-position">WR, DB</td>
+                    <td class="player-year">Jr.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Position Key -->
+        <div class="position-key">
+            <h3>Position Key</h3>
+            <div class="positions-grid">
+                <div class="position-item">
+                    <span class="position-abbr">QB</span>
+                    <span>Quarterback</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">RB</span>
+                    <span>Running Back</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">FB</span>
+                    <span>Fullback</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">WR</span>
+                    <span>Wide Receiver</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">TE</span>
+                    <span>Tight End</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">OL</span>
+                    <span>Offensive Line</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">DB</span>
+                    <span>Defensive Back</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">CB</span>
+                    <span>Cornerback</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">LB</span>
+                    <span>Linebacker</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">DL</span>
+                    <span>Defensive Line</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">DE</span>
+                    <span>Defensive End</span>
+                </div>
+                <div class="position-item">
+                    <span class="position-abbr">PK</span>
+                    <span>Placekicker</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="social-icons">
+            <a href="https://www.facebook.com/MCCardinalFootball" class="social-icon" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://x.com/MartinCoFball" class="social-icon" target="_blank">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+        <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            });
+            
+            // Close menu when a link is clicked
+            const navLinks = document.querySelectorAll('.nav-menu li a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                });
+            });
+
+            // Roster sorting functionality
+            const table = document.getElementById('rosterTable');
+            const headers = table.querySelectorAll('th');
+            const tableBody = table.querySelector('tbody');
+            const rows = tableBody.querySelectorAll('tr');
+            
+            // Sort Buttons
+            const sortButtons = document.querySelectorAll('.sort-btn');
+            sortButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const sortBy = button.getAttribute('data-sort');
+                    sortButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Find the corresponding header and click it
+                    const header = Array.from(headers).find(h => h.getAttribute('data-sort') === sortBy);
+                    if (header) {
+                        header.click();
+                    }
+                });
+            });
+            
+            // Convert to array for sorting
+            const rowsArray = Array.from(rows);
+            let sortColumn = 0; // Default sort by number
+            let sortDirection = 'asc';
+            
+            // Initial sort
+            sortTable();
+            
+            // Add event listeners to headers
+            headers.forEach((header, index) => {
+                header.addEventListener('click', () => {
+                    const currentIsAsc = header.classList.contains('sort-asc');
+                    
+                    // Remove sort classes from all headers
+                    headers.forEach(h => {
+                        h.classList.remove('sort-asc', 'sort-desc');
+                    });
+                    
+                    // Add sort class to clicked header
+                    if (sortColumn === index && currentIsAsc) {
+                        header.classList.add('sort-desc');
+                        sortDirection = 'desc';
+                    } else {
+                        header.classList.add('sort-asc');
+                        sortDirection = 'asc';
+                    }
+                    
+                    sortColumn = index;
+                    sortTable();
+                });
+            });
+            
+            function sortTable() {
+                rowsArray.sort((a, b) => {
+                    const aValue = a.cells[sortColumn].textContent.trim();
+                    const bValue = b.cells[sortColumn].textContent.trim();
+                    
+                    if (sortColumn === 0) { // Sort by number
+                        return sortDirection === 'asc' 
+                            ? parseInt(aValue) - parseInt(bValue)
+                            : parseInt(bValue) - parseInt(aValue);
+                    } else if (sortColumn === 3) { // Sort by year
+                        const yearOrder = { 'Fr.': 1, 'So.': 2, 'Jr.': 3, 'Sr.': 4 };
+                        return sortDirection === 'asc' 
+                            ? yearOrder[aValue] - yearOrder[bValue]
+                            : yearOrder[bValue] - yearOrder[aValue];
+                    } else {
+                        return sortDirection === 'asc'
+                            ? aValue.localeCompare(bValue)
+                            : bValue.localeCompare(aValue);
+                    }
+                });
+                
+                // Re-append rows in sorted order
+                rowsArray.forEach(row => tableBody.appendChild(row));
+            }

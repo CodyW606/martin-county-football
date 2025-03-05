@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martin County Cardinals - Schedule</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Header and Navigation */
+        .header {
+            background-color: #cf0a2c; /* Cardinal Red */
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            z-index: 101;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+            margin-right: 0;
+        }
+
+        /* Mobile Menu Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu li a:hover {
+            color: #aed4e6; /* Powder Blue */
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: #aed4e6; /* Powder Blue */
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu li a.active {
+            color: #aed4e6; /* Powder Blue */
+        }
+
+        .nav-menu li a.active::after {
+            width: 100%;
+        }
+
+        .search-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: white;
+            z-index: 101;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #cf0a2c; /* Cardinal Red */
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #aed4e6; /* Powder Blue */
+            font-size: 1.2rem;
+        }
+
+        /* Schedule Section */
+        .schedule-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-image: url('teamlogo-watermark.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 80%;
+            background-attachment: fixed;
+            background-color: rgba(0, 0, 0, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .game-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: rgba(20, 20, 20, 0.7);
+            border-left: 4px solid;
+            padding: 1rem;
+            border-radius: 5px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .home-game {
+            border-left-color: #cf0a2c; /* Cardinal Red */
+        }
+
+        .away-game {
+            border-left-color: #ffffff; /* White */
+        }
+
+        .neutral-game {
+            border-left-color: #aed4e6; /* Powder Blue */
+        }
+
+        .team-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-right: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .game-info {
+            flex: 1;
+        }
+
+        .opponent {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .home-game .opponent {
+            color: #cf0a2c; /* Cardinal Red */
+        }
+
+        .away-game .opponent {
+            color: #ffffff; /* White */
+        }
+
+        .neutral-game .opponent {
+            color: #aed4e6; /* Powder Blue */
+        }
+
+        .game-time {
+            font-size: 1.1rem;
+            color: #bbb;
+        }
+
+        .bye-week {
+            background-color: rgba(20, 20, 20, 0.5);
+            border-left: 4px solid #8a0a21; /* Darker Red */
+            opacity: 0.8;
+        }
+
+        .bye-week .opponent {
+            color: #8a0a21; /* Darker Red */
+        }
+
+        /* Legend */
+        .schedule-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            padding: 1rem;
+            border-radius: 5px;
+            background-color: rgba(20, 20, 20, 0.5);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+        }
+
+        .legend-text {
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #111;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #cf0a2c; /* Cardinal Red */
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: #aed4e6; /* Powder Blue */
+            transform: translateY(-3px);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: #cf0a2c;
+                gap: 2rem;
+                transition: right 0.3s ease;
+                z-index: 100;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu li a {
+                font-size: 1.2rem;
+            }
+            
+            /* Menu toggle animation */
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+            
+            .schedule-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header and Navigation -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="teamlogo.png" alt="Cardinals Logo" class="logo">
+        </div>
+        
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="schedule.html" class="active">Schedule</a></li>
+                <li><a href="roster.html">Roster</a></li>
+                <li><a href="staff.html">Staff</a></li>
+                <li><a href="history.html">History</a></li>
+            </ul>
+        </nav>
+        
+        <div class="search-icon">
+            <i class="fas fa-search"></i>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <div class="page-title">
+        <h1>2025 Football Schedule</h1>
+        <p>Martin County Cardinals</p>
+    </div>
+
+    <!-- Schedule Section -->
+    <div class="schedule-container">
+        <div class="schedule-grid">
+            <!-- Game 1 -->
+            <div class="game-card away-game">
+                <img src="lawrencecounty.jpg" alt="Lawrence County Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Lawrence County</div>
+                    <div class="game-time">08/22 • 7:00 PM</div>
+                </div>
+            </div>
+
+            <!-- Game 2 -->
+            <div class="game-card neutral-game">
+                <img src="pikecentral.jpg" alt="Pike Central Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Pike Central</div>
+                    <div class="game-time">08/29 • 6:00 PM</div>
+                </div>
+            </div>
+
+            <!-- Game 3 -->
+            <div class="game-card away-game">
+                <img src="betsylayne.jpg" alt="Betsy Layne Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Betsy Layne</div>
+                    <div class="game-time">09/05 • 7:30 PM</div>
+                </div>
+            </div>
+
+            <!-- Game 4 -->
+            <div class="game-card home-game">
+                <img src="knoxcounty.jpg" alt="Knox County Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Knox County</div>
+                    <div class="game-time">09/12 • 7:30 PM</div>
+                </div>
+            </div>
+
+            <!-- Game 5 -->
+            <div class="game-card away-game">
+                <img src="shelbyvalley.jpg" alt="Shelby Valley Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Shelby Valley</div>
+                    <div class="game-time">09/19 • 7:30 PM</div>
+                </div>
+            </div>
+
+            <!-- Game 6 -->
+            <div class="game-card home-game">
+                <img src="knottcounty.jpg" alt="Knott County Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Knott County</div>
+                    <div class="game-time">09/26 • 7:30 PM</div>
+                </div>
+            </div>
+
+            <!-- Game 7 -->
+            <div class="game-card home-game">
+                <img src="lesliecounty.jpg" alt="Leslie County Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Leslie County</div>
+                    <div class="game-time">10/03 • 7:30 PM</div>
+                </div>
+            </div>
+
+            <!-- Bye Week -->
+            <div class="game-card bye-week">
+                <img src="teamlogo.png" alt="Cardinals Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Bye Week</div>
+                    <div class="game-time">10/10</div>
+                </div>
+            </div>
+
+            <!-- Game 8 -->
+            <div class="game-card away-game">
+                <img src="floydcentral.jpg" alt="Floyd Central Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Floyd Central</div>
+                    <div class="game-time">10/17 • 7:30 PM</div>
+                </div>
+            </div>
+
+            <!-- Game 9 -->
+            <div class="game-card home-game">
+                <img src="prestonsburg.jpg" alt="Prestonsburg Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Prestonsburg</div>
+                    <div class="game-time">10/24 • 7:30 PM</div>
+                </div>
+            </div>
+
+            <!-- Game 10 -->
+            <div class="game-card away-game">
+                <img src="paintsville.jpg" alt="Paintsville Logo" class="team-logo">
+                <div class="game-info">
+                    <div class="opponent">Paintsville</div>
+                    <div class="game-time">10/31 • 7:30 PM</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="schedule-legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #cf0a2c;"></div>
+                <div class="legend-text">Home</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #ffffff;"></div>
+                <div class="legend-text">Away</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #aed4e6;"></div>
+                <div class="legend-text">Neutral</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="social-icons">
+            <a href="https://www.facebook.com/MCCardinalFootball" class="social-icon" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://x.com/MartinCoFball" class="social-icon" target="_blank">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+        <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            });
+            
+            // Close menu when a link is clicked
+            const navLinks = document.querySelectorAll('.nav-menu li a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martin County Cardinals - Coaching Staff</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header and Navigation */
+        .header {
+            background-color: #cf0a2c; /* Cardinal Red */
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            z-index: 101;
+        }
+
+        .logo {
+            height: 60px;
+            width: auto;
+            margin-right: 0;
+        }
+
+        /* Mobile Menu Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu li a:hover {
+            color: #aed4e6; /* Powder Blue */
+        }
+
+        .nav-menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: #aed4e6; /* Powder Blue */
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu li a.active {
+            color: #aed4e6; /* Powder Blue */
+        }
+
+        .nav-menu li a.active::after {
+            width: 100%;
+        }
+
+        .search-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: white;
+            z-index: 101;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #cf0a2c; /* Cardinal Red */
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* Staff Section */
+        .staff-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .staff-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .staff-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .staff-photo {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-bottom: 3px solid #cf0a2c; /* Cardinal Red */
+        }
+
+        .staff-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .staff-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .head-coach .staff-name {
+            color: #cf0a2c; /* Cardinal Red */
+        }
+
+        .staff-title {
+            color: #666;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        .head-coach .staff-title {
+            font-weight: bold;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #cf0a2c; /* Cardinal Red */
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: #aed4e6; /* Powder Blue */
+            transform: translateY(-3px);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background-color: #cf0a2c;
+                gap: 2rem;
+                transition: right 0.3s ease;
+                z-index: 100;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu li a {
+                font-size: 1.2rem;
+            }
+            
+            /* Menu toggle animation */
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .staff-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header and Navigation -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="teamlogo.png" alt="Cardinals Logo" class="logo">
+        </div>
+        
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="roster.html">Roster</a></li>
+                <li><a href="staff.html" class="active">Staff</a></li>
+                <li><a href="history.html">History</a></li>
+            </ul>
+        </nav>
+        
+        <div class="search-icon">
+            <i class="fas fa-search"></i>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <div class="page-title">
+        <h1>Coaching Staff</h1>
+        <p>Martin County Cardinals</p>
+    </div>
+
+    <!-- Staff Section -->
+    <div class="staff-container">
+        <div class="staff-grid">
+            <!-- Head Coach -->
+            <div class="staff-card head-coach">
+                <img src="JoshMuncy.jpg" alt="Josh Muncy" class="staff-photo" onerror="this.src='teamlogo.png'">
+                <div class="staff-info">
+                    <h2 class="staff-name">Josh Muncy</h2>
+                    <p class="staff-title">Head Coach</p>
+                </div>
+            </div>
+
+            <!-- Assistant Coach - Joseph Stanley -->
+            <div class="staff-card">
+                <img src="JosephStanley.jpg" alt="Joseph Stanley" class="staff-photo" onerror="this.src='teamlogo.png'">
+                <div class="staff-info">
+                    <h2 class="staff-name">Joseph Stanley</h2>
+                    <p class="staff-title">Assistant Coach</p>
+                </div>
+            </div>
+
+            <!-- Assistant Coach - Cody Slone -->
+            <div class="staff-card">
+                <img src="CodySlone.jpg" alt="Cody Slone" class="staff-photo" onerror="this.src='teamlogo.png'">
+                <div class="staff-info">
+                    <h2 class="staff-name">Cody Slone</h2>
+                    <p class="staff-title">Assistant Coach</p>
+                </div>
+            </div>
+
+            <!-- Assistant Coach - John Stafford -->
+            <div class="staff-card">
+                <img src="JohnStafford.jpg" alt="John Stafford" class="staff-photo" onerror="this.src='teamlogo.png'">
+                <div class="staff-info">
+                    <h2 class="staff-name">John Stafford</h2>
+                    <p class="staff-title">Assistant Coach</p>
+                </div>
+            </div>
+
+            <!-- Assistant Coach - Josh Horn -->
+            <div class="staff-card">
+                <img src="JoshHorn.jpg" alt="Josh Horn" class="staff-photo" onerror="this.src='teamlogo.png'">
+                <div class="staff-info">
+                    <h2 class="staff-name">Josh Horn</h2>
+                    <p class="staff-title">Assistant Coach</p>
+                </div>
+            </div>
+
+            <!-- Assistant Coach - Justin Scott -->
+            <div class="staff-card">
+                <img src="JustinScott.jpg" alt="Justin Scott" class="staff-photo" onerror="this.src='teamlogo.png'">
+                <div class="staff-info">
+                    <h2 class="staff-name">Justin Scott</h2>
+                    <p class="staff-title">Assistant Coach</p>
+                </div>
+            </div>
+
+            <!-- Assistant Coach - Steve McCoy -->
+            <div class="staff-card">
+                <img src="SteveMcCoy.jpg" alt="Steve McCoy" class="staff-photo" onerror="this.src='teamlogo.png'">
+                <div class="staff-info">
+                    <h2 class="staff-name">Steve McCoy</h2>
+                    <p class="staff-title">Assistant Coach</p>
+                </div>
+            </div>
+
+            <!-- Assistant Coach - Dan Muncy -->
+            <div class="staff-card">
+                <img src="DanMuncy.jpg" alt="Dan Muncy" class="staff-photo" onerror="this.src='teamlogo.png'">
+                <div class="staff-info">
+                    <h2 class="staff-name">Dan Muncy</h2>
+                    <p class="staff-title">Assistant Coach</p>
+                </div>
+            </div>
+
+            <!-- Assistant Coach - Kevin Lowe -->
+            <div class="staff-card">
+                <img src="KevinLowe.jpg" alt="Kevin Lowe" class="staff-photo" onerror="this.src='teamlogo.png'">
+                <div class="staff-info">
+                    <h2 class="staff-name">Kevin Lowe</h2>
+                    <p class="staff-title">Assistant Coach</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="social-icons">
+            <a href="https://www.facebook.com/MCCardinalFootball" class="social-icon" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://x.com/MartinCoFball" class="social-icon" target="_blank">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+        <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            });
+            
+            // Close menu when a link is clicked
+            const navLinks = document.querySelectorAll('.nav-menu li a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
