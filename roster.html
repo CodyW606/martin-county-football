@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Martin County Cardinals - Roster</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -141,33 +142,13 @@
             padding: 2rem;
         }
 
-        .filter-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
+        .search-box {
+            width: 100%;
+            padding: 0.75rem 1rem;
             margin-bottom: 2rem;
-            justify-content: center;
-        }
-
-        .sort-btn {
-            background-color: #cf0a2c; /* Cardinal Red */
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            cursor: pointer;
-            font-weight: bold;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .sort-btn:hover {
-            background-color: #9e0823;
-            transform: translateY(-2px);
-        }
-
-        .sort-btn.active {
-            background-color: #aed4e6; /* Powder Blue */
-            color: #333;
+            font-size: 1rem;
         }
 
         .roster-table {
@@ -177,6 +158,7 @@
             background-color: white;
             border-radius: 10px;
             overflow: hidden;
+            margin-bottom: 2rem;
         }
 
         .roster-table th {
@@ -184,29 +166,7 @@
             color: white;
             text-align: left;
             padding: 1rem;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .roster-table th:hover {
-            background-color: #9e0823;
-        }
-
-        .roster-table th::after {
-            content: '';
-            position: absolute;
-            right: 10px;
-            opacity: 0.3;
-        }
-
-        .roster-table th.sort-asc::after {
-            content: '▲';
-            opacity: 1;
-        }
-
-        .roster-table th.sort-desc::after {
-            content: '▼';
-            opacity: 1;
+            font-weight: bold;
         }
 
         .roster-table td {
@@ -240,6 +200,22 @@
         }
 
         .player-year {
+            text-align: center;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
             text-align: center;
         }
 
@@ -364,11 +340,6 @@
                 display: block;
                 overflow-x: auto;
             }
-            
-            .filter-controls {
-                flex-direction: column;
-                align-items: center;
-            }
         }
     </style>
 </head>
@@ -408,280 +379,20 @@
 
     <!-- Roster Section -->
     <div class="roster-container">
-        <div class="filter-controls">
-            <button class="sort-btn active" data-sort="number">Sort by Number</button>
-            <button class="sort-btn" data-sort="name">Sort by Name</button>
-            <button class="sort-btn" data-sort="position">Sort by Position</button>
-            <button class="sort-btn" data-sort="year">Sort by Grade</button>
-        </div>
+        <input type="text" placeholder="Search for player by number, name, position..." class="search-box" id="searchBox">
 
         <table class="roster-table" id="rosterTable">
             <thead>
                 <tr>
-                    <th data-sort="number" class="sort-asc">#</th>
-                    <th data-sort="name">Name</th>
-                    <th data-sort="position">Position</th>
-                    <th data-sort="year">Yr.</th>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Yr.</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="rosterTableBody">
                 <tr>
-                    <td class="player-number">0</td>
-                    <td class="player-name">Brayden Estep</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">3</td>
-                    <td class="player-name">Jerrod Haney</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">6</td>
-                    <td class="player-name">Parker Watts</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">7</td>
-                    <td class="player-name">Braxton Maynard</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">Jr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">9</td>
-                    <td class="player-name">Weston Jude</td>
-                    <td class="player-position">WR, LB</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">10</td>
-                    <td class="player-name">Caleb Horn</td>
-                    <td class="player-position">PK</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">11</td>
-                    <td class="player-name">Devan Maynard</td>
-                    <td class="player-position">QB, DB</td>
-                    <td class="player-year">Jr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">12</td>
-                    <td class="player-name">Aiden Horn</td>
-                    <td class="player-position">RB, LB</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">13</td>
-                    <td class="player-name">Jaycob Bowman</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">14</td>
-                    <td class="player-name">Parker Maynard</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">Fr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">15</td>
-                    <td class="player-name">Chase Stacy</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">16</td>
-                    <td class="player-name">Jonothan Cline</td>
-                    <td class="player-position">RB, DB</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">17</td>
-                    <td class="player-name">Brock Hedrick</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">Fr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">20</td>
-                    <td class="player-name">Gavin Stepp</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">Jr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">21</td>
-                    <td class="player-name">Brody Mollett</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">22</td>
-                    <td class="player-name">Cole Jewell</td>
-                    <td class="player-position">FB, LB</td>
-                    <td class="player-year">Fr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">23</td>
-                    <td class="player-name">Julian Stafford</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">24</td>
-                    <td class="player-name">Jeremy Begley</td>
-                    <td class="player-position">TE, LB</td>
-                    <td class="player-year">Fr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">25</td>
-                    <td class="player-name">Damian Cheek</td>
-                    <td class="player-position">RB, LB</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">28</td>
-                    <td class="player-name">Crayson Lafferty</td>
-                    <td class="player-position">RB, LB</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">30</td>
-                    <td class="player-name">Haskell Fuggett</td>
-                    <td class="player-position">TE, DE</td>
-                    <td class="player-year">Jr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">34</td>
-                    <td class="player-name">Samuel Moore</td>
-                    <td class="player-position">TE, CB</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">35</td>
-                    <td class="player-name">Skyler Morrison</td>
-                    <td class="player-position">WR, CB</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">38</td>
-                    <td class="player-name">James Begley</td>
-                    <td class="player-position">RB, LB</td>
-                    <td class="player-year">Fr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">44</td>
-                    <td class="player-name">Brayden Fannin</td>
-                    <td class="player-position">TE, DE</td>
-                    <td class="player-year">Fr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">50</td>
-                    <td class="player-name">Brayden Chapman</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">Jr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">52</td>
-                    <td class="player-name">Zachary Hamilton</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">55</td>
-                    <td class="player-name">Brandon Wells</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">56</td>
-                    <td class="player-name">Blake Stacy</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">Fr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">57</td>
-                    <td class="player-name">Alexander Lowe</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">58</td>
-                    <td class="player-name">Caden Young</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">60</td>
-                    <td class="player-name">Kendal Mullins</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">62</td>
-                    <td class="player-name">Braxton Moore</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">64</td>
-                    <td class="player-name">Mason Mccoy</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">65</td>
-                    <td class="player-name">Corey Parsley</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">67</td>
-                    <td class="player-name">Payton Ward</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">70</td>
-                    <td class="player-name">Bryson Osborne</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">So.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">71</td>
-                    <td class="player-name">Peyton Lowe</td>
-                    <td class="player-position"></td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">75</td>
-                    <td class="player-name">Liam May</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">Fr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">77</td>
-                    <td class="player-name">Braxton Carter</td>
-                    <td class="player-position">OL, DL</td>
-                    <td class="player-year">Fr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">81</td>
-                    <td class="player-name">Kaleb Robinson</td>
-                    <td class="player-position">TE, LB</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">84</td>
-                    <td class="player-name">Jack Cline</td>
-                    <td class="player-position">RB, DB</td>
-                    <td class="player-year">Sr.</td>
-                </tr>
-                <tr>
-                    <td class="player-number">88</td>
-                    <td class="player-name">Bailey Crum</td>
-                    <td class="player-position">WR, DB</td>
-                    <td class="player-year">Jr.</td>
+                    <td colspan="4" class="loading">Loading roster data...</td>
                 </tr>
             </tbody>
         </table>
@@ -756,100 +467,117 @@
     </footer>
 
     <script>
-        // Mobile menu toggle functionality
+        // Wait for DOM to fully load before running script
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle functionality
             const menuToggle = document.querySelector('.menu-toggle');
             const navMenu = document.querySelector('.nav-menu');
             
-            menuToggle.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-                menuToggle.classList.toggle('active');
-            });
-            
-            // Close menu when a link is clicked
-            const navLinks = document.querySelectorAll('.nav-menu li a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    navMenu.classList.remove('active');
-                    menuToggle.classList.remove('active');
-                });
-            });
-
-            // Roster sorting functionality
-            const table = document.getElementById('rosterTable');
-            const headers = table.querySelectorAll('th');
-            const tableBody = table.querySelector('tbody');
-            const rows = tableBody.querySelectorAll('tr');
-            
-            // Sort Buttons
-            const sortButtons = document.querySelectorAll('.sort-btn');
-            sortButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const sortBy = button.getAttribute('data-sort');
-                    sortButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    
-                    // Find the corresponding header and click it
-                    const header = Array.from(headers).find(h => h.getAttribute('data-sort') === sortBy);
-                    if (header) {
-                        header.click();
-                    }
-                });
-            });
-            
-            // Convert to array for sorting
-            const rowsArray = Array.from(rows);
-            let sortColumn = 0; // Default sort by number
-            let sortDirection = 'asc';
-            
-            // Initial sort
-            sortTable();
-            
-            // Add event listeners to headers
-            headers.forEach((header, index) => {
-                header.addEventListener('click', () => {
-                    const currentIsAsc = header.classList.contains('sort-asc');
-                    
-                    // Remove sort classes from all headers
-                    headers.forEach(h => {
-                        h.classList.remove('sort-asc', 'sort-desc');
-                    });
-                    
-                    // Add sort class to clicked header
-                    if (sortColumn === index && currentIsAsc) {
-                        header.classList.add('sort-desc');
-                        sortDirection = 'desc';
-                    } else {
-                        header.classList.add('sort-asc');
-                        sortDirection = 'asc';
-                    }
-                    
-                    sortColumn = index;
-                    sortTable();
-                });
-            });
-            
-            function sortTable() {
-                rowsArray.sort((a, b) => {
-                    const aValue = a.cells[sortColumn].textContent.trim();
-                    const bValue = b.cells[sortColumn].textContent.trim();
-                    
-                    if (sortColumn === 0) { // Sort by number
-                        return sortDirection === 'asc' 
-                            ? parseInt(aValue) - parseInt(bValue)
-                            : parseInt(bValue) - parseInt(aValue);
-                    } else if (sortColumn === 3) { // Sort by year
-                        const yearOrder = { 'Fr.': 1, 'So.': 2, 'Jr.': 3, 'Sr.': 4 };
-                        return sortDirection === 'asc' 
-                            ? yearOrder[aValue] - yearOrder[bValue]
-                            : yearOrder[bValue] - yearOrder[aValue];
-                    } else {
-                        return sortDirection === 'asc'
-                            ? aValue.localeCompare(bValue)
-                            : bValue.localeCompare(aValue);
-                    }
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
                 });
                 
-                // Re-append rows in sorted order
-                rowsArray.forEach(row => tableBody.appendChild(row));
+                // Close menu when a link is clicked
+                const navLinks = document.querySelectorAll('.nav-menu li a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        navMenu.classList.remove('active');
+                        menuToggle.classList.remove('active');
+                    });
+                });
             }
+            
+            // Load roster data
+            loadRosterData();
+            
+            // Set up search functionality
+            const searchBox = document.getElementById('searchBox');
+            if (searchBox) {
+                searchBox.addEventListener('input', filterRoster);
+            }
+        });
+        
+        // Load roster data from Excel file
+        async function loadRosterData() {
+            try {
+                const response = await fetch('Martin County Football Roster.xlsx');
+                const arrayBuffer = await response.arrayBuffer();
+                
+                // Parse Excel file
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                const rosterData = XLSX.utils.sheet_to_json(worksheet);
+                
+                // Display data in table
+                displayRoster(rosterData);
+            } catch (error) {
+                console.error('Error loading roster data:', error);
+                document.getElementById('rosterTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="4" class="error-message">
+                            Error loading roster data. Please ensure the Excel file is correctly formatted and available.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        
+        // Display roster data in table
+        function displayRoster(data) {
+            const tableBody = document.getElementById('rosterTableBody');
+            
+            if (!tableBody || !data || data.length === 0) {
+                if (tableBody) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="error-message">No roster data available.</td>
+                        </tr>
+                    `;
+                }
+                return;
+            }
+            
+            // Clear loading message
+            tableBody.innerHTML = '';
+            
+            // Add rows for each player
+            data.forEach(player => {
+                // Ensure we have all required fields
+                const number = player.Number || player['#'] || '';
+                const name = player.Name || '';
+                const position = player.Position || '';
+                const year = player.Year || player.Yr || player['Yr.'] || '';
+                
+                // Create row
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="player-number">${number}</td>
+                    <td class="player-name">${name}</td>
+                    <td class="player-position">${position}</td>
+                    <td class="player-year">${year}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Filter roster based on search input
+        function filterRoster() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const rows = document.querySelectorAll('#rosterTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
