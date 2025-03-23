@@ -553,9 +553,13 @@
                 
                 // Create row
                 const row = document.createElement('tr');
+                
+                // Create player URL - convert name to lowercase with hyphens
+                const playerUrl = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') + '.html';
+                
                 row.innerHTML = `
                     <td class="player-number">${number}</td>
-                    <td class="player-name">${name}</td>
+                    <td class="player-name"><a href="players/${playerUrl}" class="player-link">${name}</a></td>
                     <td class="player-position">${position}</td>
                     <td class="player-year">${year}</td>
                 `;
