@@ -19,6 +19,16 @@
             overflow-x: hidden;
         }
 
+        /* Main Content Area with Background */
+        .main-content {
+            position: relative;
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('images/therockmarch24.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: calc(100vh - 100px);
+        }
+
         /* Header and Navigation */
         .header {
             background-color: #cf0a2c; /* Cardinal Red */
@@ -139,6 +149,9 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .staff-grid {
@@ -306,20 +319,17 @@
                 <li><a href="history.html">History</a></li>
             </ul>
         </nav>
-        
-        <div class="search-icon">
-            <i class="fas fa-search"></i>
-        </div>
     </header>
 
     <!-- Page Title -->
-    <div class="page-title">
-        <h1>Coaching Staff</h1>
-        <p>Martin County Cardinals</p>
-    </div>
+    <div class="main-content">
+        <div class="page-title">
+            <h1>Coaching Staff</h1>
+            <p>Martin County Cardinals</p>
+        </div>
 
-    <!-- Staff Section -->
-    <div class="staff-container">
+        <!-- Staff Section -->
+        <div class="staff-container">
         <div class="staff-grid">
             <!-- Head Coach -->
             <div class="staff-card head-coach">
@@ -402,6 +412,7 @@
                 </div>
             </div>
         </div>
+            </div>
     </div>
 
     <!-- Footer Section -->
