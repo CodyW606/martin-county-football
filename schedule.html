@@ -139,7 +139,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
@@ -155,11 +155,12 @@
             position: relative;
             display: flex;
             align-items: center;
-            background-color: rgba(20, 20, 20, 0.7);
+            background-color: rgba(255, 255, 255, 0.9);
             border-left: 4px solid;
             padding: 1rem;
             border-radius: 5px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 0.5rem;
         }
 
         .game-card:hover {
@@ -197,33 +198,34 @@
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
+            color: #333;
         }
 
         .home-game .opponent {
-            color: #cf0a2c; /* Cardinal Red */
+            color: #333;
         }
 
         .away-game .opponent {
-            color: #ffffff; /* White */
+            color: #333;
         }
 
         .neutral-game .opponent {
-            color: #aed4e6; /* Powder Blue */
+            color: #333;
         }
 
         .game-time {
             font-size: 1.1rem;
-            color: #bbb;
+            color: #666;
         }
 
         .bye-week {
-            background-color: rgba(20, 20, 20, 0.5);
-            border-left: 4px solid #8a0a21; /* Darker Red */
-            opacity: 0.8;
+            background-color: rgba(245, 245, 245, 0.9);
+            border-left: 4px solid #cf0a2c; /* Cardinal Red */
+            opacity: 0.9;
         }
 
         .bye-week .opponent {
-            color: #8a0a21; /* Darker Red */
+            color: #333;
         }
 
         /* Legend */
@@ -234,7 +236,7 @@
             margin-top: 3rem;
             padding: 1rem;
             border-radius: 5px;
-            background-color: rgba(20, 20, 20, 0.5);
+            background-color: rgba(255, 255, 255, 0.9);
         }
 
         .legend-item {
