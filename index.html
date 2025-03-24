@@ -362,14 +362,7 @@
             <img src="images/teamlogo.png" alt="Cardinals Logo" class="team-logo">
             <p class="sponsor-text">(Message us today to find out how to get your logo here!)</p>
         </div>
-                    <!-- Photo Gallery Section -->
-                <section class="gallery-section">
-                    <h2 class="gallery-title">March Workout Gallery</h2>
-                    <div class="photo-gallery">
-                        <!-- Gallery items will be loaded dynamically from the marchworkoutimages folder -->
-                        <div class="loading-gallery">Loading gallery images...</div>
-                    </div>
-                </section>
+                    <!-- News Section only -->
             </section>
 
     <!-- Main Content -->
@@ -402,7 +395,7 @@
         <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
     </footer>
     <script>
-        // Mobile menu toggle functionality
+        // Mobile menu toggle functionality only
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.querySelector('.menu-toggle');
             const navMenu = document.querySelector('.nav-menu');
@@ -420,68 +413,7 @@
                     menuToggle.classList.remove('active');
                 });
             });
-
-            // Load gallery images from folder
-            loadGalleryImages();
         });
-
-        // Function to load images from marchworkoutimages folder
-        async function loadGalleryImages() {
-            const galleryContainer = document.querySelector('.photo-gallery');
-            
-            // List of images in the marchworkoutimages folder using your exact filenames
-            const imageFiles = [
-                'DSC05681.jpg', 'DSC05686.jpg', 'DSC05700.jpg', 'DSC05701.jpg', 'DSC05702.jpg',
-                'DSC05707.jpg', 'DSC05710.jpg', 'DSC05717.jpg', 'DSC05721.jpg', 'DSC05724.jpg',
-                'DSC05727.jpg', 'DSC05728.jpg', 'DSC05740.jpg', 'DSC05741.jpg', 'DSC05749.jpg',
-                'DSC05759.jpg', 'DSC05761.jpg', 'DSC05763.jpg', 'DSC05764.jpg', 'DSC05768.jpg',
-                'DSC05773.jpg', 'DSC05782.jpg', 'DSC05784.jpg', 'DSC05785.jpg', 'DSC05789.jpg',
-                'DSC05796.jpg', 'DSC05812.jpg', 'DSC05815.jpg', 'DSC05821.jpg', 'DSC05826.jpg',
-                'DSC05842.jpg', 'DSC05845.jpg', 'DSC05850.jpg', 'DSC05851.jpg', 'DSC05875.jpg',
-                'DSC05878.jpg', 'DSC05888.jpg', 'DSC05889.jpg', 'DSC05890.jpg', 'DSC05898.jpg',
-                'DSC05916.jpg', 'DSC05919.jpg', 'DSC05921.jpg', 'DSC05931.jpg', 'DSC05933.jpg',
-                'DSC05955.jpg', 'DSC05957.jpg', 'DSC05962.jpg', 'DSC05969.jpg', 'DSC05980.jpg',
-                'DSC05985.jpg', 'DSC05987.jpg', 'DSC05992.jpg', 'DSC05998.jpg', 'DSC06002.jpg',
-                'DSC06013.jpg', 'DSC06014.jpg', 'DSC06017.jpg', 'DSC06021.jpg', 'DSC06028.jpg',
-                'DSC06034.jpg', 'DSC06040.jpg', 'DSC06044.jpg', 'DSC06045.jpg', 'DSC06053.jpg',
-                'DSC06071.jpg', 'DSC06082.jpg', 'DSC06085.jpg', 'DSC06089.jpg', 'DSC06092.jpg'
-            ];
-            
-            // Clear any existing gallery items
-            galleryContainer.innerHTML = '';
-            
-            // Create gallery items for each image
-            imageFiles.forEach((filename) => {
-                if (!filename) return; // Skip empty entries
-                
-                // Create gallery item
-                const galleryItem = document.createElement('div');
-                galleryItem.className = 'gallery-item';
-                
-                // Create image element
-                const img = document.createElement('img');
-                img.src = `marchworkoutimages/${filename}`;
-                img.alt = `March Workout Image`;
-                img.className = 'gallery-image';
-                
-                // Add error handling for images that fail to load
-                img.onerror = function() {
-                    this.style.display = 'none'; // Hide images that don't load
-                };
-                
-                // Create caption
-                const caption = document.createElement('div');
-                caption.className = 'gallery-caption';
-                caption.textContent = `March Workout`;
-                
-                // Append elements to gallery item
-                galleryItem.appendChild(img);
-                galleryItem.appendChild(caption);
-                
-                // Append gallery item to container
-                galleryContainer.appendChild(galleryItem);
-            });
-        }
     </script>
 </body>
 </html>
