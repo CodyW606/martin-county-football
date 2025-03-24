@@ -19,17 +19,10 @@
             background-color: #f5f5f5;
             color: #333;
             overflow-x: hidden;
-        }
-
-        /* Main Content Area with Background */
-        .main-content {
-            position: relative;
             background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('images/therockmarch24.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            min-height: calc(100vh - 100px);
-            padding-bottom: 3rem;
         }
 
         /* Header and Navigation */
@@ -82,6 +75,7 @@
             display: flex;
             list-style: none;
             gap: 2rem;
+            justify-content: center;
         }
 
         .nav-menu li a {
@@ -121,10 +115,7 @@
         }
 
         .search-icon {
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: white;
-            z-index: 101;
+            display: none;
         }
 
         /* Page Title */
@@ -662,7 +653,6 @@
             <div class="pagination" id="pagination"></div>
         </div>
             </div>
-    </div>
 
     <!-- Footer Section -->
     <footer class="footer">
