@@ -99,6 +99,14 @@
             width: 100%;
         }
 
+        .nav-menu li a.active {
+            color: #aed4e6; /* Powder Blue */
+        }
+
+        .nav-menu li a.active::after {
+            width: 100%;
+        }
+
         .search-icon {
             font-size: 1.2rem;
             cursor: pointer;
@@ -133,11 +141,6 @@
             letter-spacing: 2px;
         }
 
-        .hero-content p {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-        }
-
         .team-logo {
             width: 100px;
             height: auto;
@@ -152,19 +155,34 @@
             margin-top: 0.5rem;
         }
 
-        /* News Section */
-        .news-section {
-            padding: 3rem 2rem;
+        /* Main Content Section with Background */
+        .main-content {
+            position: relative;
+            padding: 3rem 0;
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('images/therockmarch24.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* News Section */
+        .news-section {
+            padding: 2rem 0;
         }
 
         .news-section h2 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
             text-align: center;
             color: #cf0a2c; /* Cardinal Red */
             position: relative;
+            font-weight: bold;
         }
 
         .news-section h2::after {
@@ -173,27 +191,25 @@
             bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
+            width: 80px;
             height: 3px;
             background-color: #aed4e6; /* Powder Blue */
         }
 
         .news-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
             display: grid;
             grid-template-columns: 1fr 2fr;
-            gap: 2rem;
-            background-color: white;
-            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .news-image {
-            height: 300px;
-            background-color: #eee;
-            background-image: url('/api/placeholder/400/320');
-            background-size: cover;
-            background-position: center;
+            background-color: #f5f5f5;
+            height: 100%;
+            min-height: 300px;
         }
 
         .news-content {
@@ -202,18 +218,21 @@
 
         .news-date {
             color: #666;
-            font-size: 0.9rem;
             margin-bottom: 0.5rem;
+            font-size: 1rem;
         }
 
         .news-title {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             margin-bottom: 1rem;
             color: #333;
+            font-weight: bold;
         }
 
         .news-excerpt {
+            font-size: 1rem;
             line-height: 1.6;
+            color: #333;
             margin-bottom: 1.5rem;
         }
 
@@ -221,16 +240,15 @@
             display: inline-block;
             background-color: #cf0a2c; /* Cardinal Red */
             color: white;
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 1.5rem;
             text-decoration: none;
             border-radius: 5px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
 
         .read-more:hover {
-            background-color: #9e0823;
-            transform: translateY(-2px);
+            background-color: #b10924;
         }
 
         /* Footer Section */
@@ -300,18 +318,6 @@
                 font-size: 1.2rem;
             }
             
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-            
-            .news-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .news-image {
-                height: 200px;
-            }
-            
             /* Menu toggle animation */
             .menu-toggle.active span:nth-child(1) {
                 transform: translateY(9px) rotate(45deg);
@@ -323,6 +329,18 @@
             
             .menu-toggle.active span:nth-child(3) {
                 transform: translateY(-9px) rotate(-45deg);
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .news-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .news-image {
+                min-height: 200px;
             }
         }
     </style>
@@ -342,7 +360,7 @@
         
         <nav>
             <ul class="nav-menu">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="schedule.html">Schedule</a></li>
                 <li><a href="roster.html">Roster</a></li>
                 <li><a href="staff.html">Staff</a></li>
@@ -362,23 +380,26 @@
             <img src="images/teamlogo.png" alt="Cardinals Logo" class="team-logo">
             <p class="sponsor-text">(Message us today to find out how to get your logo here!)</p>
         </div>
-                    <!-- News Section only -->
-            </section>
+    </section>
 
     <!-- Main Content -->
     <section class="main-content">
-        <div class="container"
-            <div class="news-image"></div>
-            <div class="news-content">
-                <div class="news-date">March 4, 2025</div>
-                <h3 class="news-title">Spring Practice Schedule Announced</h3>
-                <p class="news-excerpt">
-                    The Martin County Cardinals football program has announced the spring practice schedule for the upcoming season. All players are expected to report to the field house on March 15th at 3:30 PM for equipment distribution. The first official practice will begin on March 18th.
-                    
-                    Head Coach Jason Smith emphasized the importance of this spring session. "We're building on our success from last season and looking to take the next step. Every position is open for competition, and we expect maximum effort from day one."
-                </p>
-                <a href="#" class="read-more">Read More</a>
-            </div>
+        <div class="container">
+            <!-- News Section -->
+            <section class="news-section">
+                <h2>Latest News</h2>
+                <div class="news-container">
+                    <div class="news-image"></div>
+                    <div class="news-content">
+                        <div class="news-date">January 9th, 2025</div>
+                        <h3 class="news-title">Three Cardinals Named to All State</h3>
+                        <p class="news-excerpt">
+                            Congratulations to Kentucky All State Team selections. Junior Devan Maynard and Sophomore Crayson "Bones" Lafferty were named to the defensive team, while Senior Damian Cheek was named an honorable mention punter. Thank you for adding to the storied history of Cardinal Football.
+                        </p>
+                        <a href="roster.html" class="read-more">Congrats!</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </section>
 
@@ -394,25 +415,28 @@
         </div>
         <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
     </footer>
+
     <script>
-        // Mobile menu toggle functionality only
+        // Mobile menu toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.querySelector('.menu-toggle');
             const navMenu = document.querySelector('.nav-menu');
             
-            menuToggle.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-                menuToggle.classList.toggle('active');
-            });
-            
-            // Close menu when a link is clicked
-            const navLinks = document.querySelectorAll('.nav-menu li a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    navMenu.classList.remove('active');
-                    menuToggle.classList.remove('active');
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
                 });
-            });
+                
+                // Close menu when a link is clicked
+                const navLinks = document.querySelectorAll('.nav-menu li a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        navMenu.classList.remove('active');
+                        menuToggle.classList.remove('active');
+                    });
+                });
+            }
         });
     </script>
 </body>
