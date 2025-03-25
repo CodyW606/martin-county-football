@@ -45,10 +45,15 @@
             z-index: 101;
         }
 
+        .logo-container a {
+            display: block;
+        }
+
         .logo {
             height: 60px;
             width: auto;
             margin-right: 0;
+            cursor: pointer;
         }
 
         /* Mobile Menu Styles */
@@ -504,7 +509,9 @@
     <!-- Header and Navigation -->
     <header class="header">
         <div class="logo-container">
-            <img src="teamlogo.png" alt="Cardinals Logo" class="logo">
+            <a href="index.html">
+                <img src="teamlogo.png" alt="Cardinals Logo" class="logo">
+            </a>
         </div>
         
         <div class="menu-toggle">
@@ -905,166 +912,4 @@
         }
 
         function updateGamesPerPage() {
-            const perPageValue = document.getElementById('perPageSelect').value;
-            gamesPerPage = perPageValue === 'all' ? filteredGames.length : parseInt(perPageValue);
-            currentPage = 1;
-            displayData();
-        }
-
-        function sortData() {
-            filteredGames.sort((a, b) => {
-                let aValue = a[currentSort.field];
-                let bValue = b[currentSort.field];
-                
-                // Handle dates appropriately
-                if (currentSort.field === 'Date') {
-                    // Convert date strings to comparable values
-                    // Format could be "DD-MMM" like "21-Aug"
-                    const months = {
-                        'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 
-                        'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
-                    };
-                    
-                    function parseDate(dateStr) {
-                        const parts = dateStr.split('-');
-                        if (parts.length === 2) {
-                            const day = parseInt(parts[0]);
-                            const month = months[parts[1]] || 0;
-                            return month * 100 + day; // Numeric representation MM/DD
-                        }
-                        return 0;
-                    }
-                    
-                    aValue = parseDate(String(aValue));
-                    bValue = parseDate(String(bValue));
-                }
-                
-                // Ensure we're comparing strings for string fields
-                if (typeof aValue === 'string' && typeof bValue === 'string') {
-                    aValue = aValue.toLowerCase();
-                    bValue = bValue.toLowerCase();
-                }
-                
-                // Handle null/undefined values
-                if (aValue === undefined || aValue === null) aValue = '';
-                if (bValue === undefined || bValue === null) bValue = '';
-                
-                // Compare based on direction
-                if (currentSort.direction === 'asc') {
-                    return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
-                } else {
-                    return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
-                }
-            });
-        }
-
-        function displayData() {
-            const tableBody = document.getElementById('gameTableBody');
-            
-            // Clear existing content
-            tableBody.innerHTML = '';
-            
-            // Show no data message if needed
-            if (filteredGames.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="7" class="no-data">No games match your search criteria.</td></tr>';
-                document.getElementById('resultsInfo').textContent = 'Showing 0 of 0 games';
-                document.getElementById('pagination').innerHTML = '';
-                return;
-            }
-            
-            // Calculate pagination
-            const totalPages = gamesPerPage === filteredGames.length ? 1 : Math.ceil(filteredGames.length / gamesPerPage);
-            if (currentPage > totalPages) currentPage = 1;
-            
-            const startIndex = (currentPage - 1) * gamesPerPage;
-            const endIndex = Math.min(startIndex + gamesPerPage, filteredGames.length);
-            const displayedGames = filteredGames.slice(startIndex, endIndex);
-            
-            // Update results info
-            document.getElementById('resultsInfo').textContent = 
-                `Showing ${startIndex + 1}-${endIndex} of ${filteredGames.length} games`;
-            
-            // Create table rows
-            displayedGames.forEach(game => {
-                const row = document.createElement('tr');
-                
-                // Determine result class for styling
-                let resultClass = '';
-                if (game.Result === 'W') resultClass = 'result-w';
-                else if (game.Result === 'L') resultClass = 'result-l';
-                else resultClass = 'result-t';
-                
-                row.innerHTML = `
-                    <td>${game.Year}</td>
-                    <td>${formatDate(game.Date)}</td>
-                    <td>${game.Opponent}</td>
-                    <td class="${resultClass}">${game.Result}</td>
-                    <td>${game.Us}-${game.Them}</td>
-                    <td>${game.Where || ''}</td>
-                    <td>${game.Coach || ''}</td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-            
-            // Create pagination controls
-            updatePagination(totalPages);
-        }
-
-        function updatePagination(totalPages) {
-            const paginationElement = document.getElementById('pagination');
-            paginationElement.innerHTML = '';
-            
-            if (totalPages <= 1) return;
-            
-            // Previous button
-            const prevButton = document.createElement('button');
-            prevButton.innerHTML = '&laquo;';
-            prevButton.className = 'page-btn';
-            prevButton.disabled = currentPage === 1;
-            prevButton.addEventListener('click', () => {
-                if (currentPage > 1) {
-                    currentPage--;
-                    displayData();
-                }
-            });
-            paginationElement.appendChild(prevButton);
-            
-            // Page buttons
-            let startPage = Math.max(1, currentPage - 2);
-            let endPage = Math.min(totalPages, startPage + 4);
-            
-            if (endPage - startPage < 4) {
-                startPage = Math.max(1, endPage - 4);
-            }
-            
-            for (let i = startPage; i <= endPage; i++) {
-                const pageButton = document.createElement('button');
-                pageButton.textContent = i;
-                pageButton.className = 'page-btn';
-                if (i === currentPage) pageButton.classList.add('active');
-                
-                pageButton.addEventListener('click', () => {
-                    currentPage = i;
-                    displayData();
-                });
-                
-                paginationElement.appendChild(pageButton);
-            }
-            
-            // Next button
-            const nextButton = document.createElement('button');
-            nextButton.innerHTML = '&raquo;';
-            nextButton.className = 'page-btn';
-            nextButton.disabled = currentPage === totalPages;
-            nextButton.addEventListener('click', () => {
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    displayData();
-                }
-            });
-            paginationElement.appendChild(nextButton);
-        }
-    </script>
-</body>
-</html>
+            const perPageValue = document.getElementById('per
