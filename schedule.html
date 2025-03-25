@@ -39,10 +39,15 @@
             z-index: 101;
         }
 
+        .logo-container a {
+            display: block;
+        }
+
         .logo {
             height: 60px;
             width: auto;
             margin-right: 0;
+            cursor: pointer;
         }
 
         /* Mobile Menu Styles */
@@ -143,6 +148,12 @@
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
+        
+        @media (max-width: 768px) {
+            .schedule-container {
+                padding: 1.5rem 1rem;
+            }
+        }
 
         /* Modified to make games stack vertically */
         .schedule-grid {
@@ -150,6 +161,12 @@
             flex-direction: column;
             gap: 1.5rem;
             margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .schedule-grid {
+                gap: 1rem;
+            }
         }
 
         .game-card {
@@ -202,7 +219,7 @@
         .opponent {
             font-size: 1.8rem;
             font-weight: bold;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0; /* Remove bottom margin */
         }
 
         /* New darker opponent text colors */
@@ -221,6 +238,7 @@
         .game-time {
             font-size: 1.2rem;
             color: #666;
+            text-align: right;
         }
 
         .bye-week {
@@ -348,14 +366,29 @@
                 font-size: 2rem;
             }
 
+            .game-card {
+                padding: 1.25rem;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
             .opponent {
                 font-size: 1.5rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .game-time {
+                text-align: left;
+                font-size: 1.1rem;
             }
 
             .team-logo {
                 width: 45px;
                 height: 45px;
-                margin-right: 1rem;
+                margin-right: 1.25rem;
             }
         }
     </style>
@@ -364,7 +397,9 @@
     <!-- Header and Navigation -->
     <header class="header">
         <div class="logo-container">
-            <img src="images/teamlogo.png" alt="Cardinals Logo" class="logo">
+            <a href="index.html">
+                <img src="images/teamlogo.png" alt="Cardinals Logo" class="logo">
+            </a>
         </div>
         
         <div class="menu-toggle">
