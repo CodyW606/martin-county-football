@@ -171,7 +171,7 @@
             background-position: center;
             background-attachment: fixed;
             overflow: hidden;
-            padding-top: 80px; /* Add padding for fixed header */
+            padding-top: 80px;
         }
 
         .hero::before {
@@ -197,21 +197,13 @@
             font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 400;
             letter-spacing: 4px;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
             background: linear-gradient(135deg, var(--text-primary) 0%, var(--columbia-blue) 50%, var(--primary-red) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
             line-height: 1.1;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            font-weight: 300;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            letter-spacing: 1px;
         }
 
         /* Game Date Styles */
@@ -536,18 +528,6 @@
                 font-size: 1.3rem;
                 font-weight: 700;
             }
-
-            .game-date {
-                padding: 1.5rem;
-            }
-
-            .date-main {
-                font-size: 2rem;
-            }
-
-            .date-time {
-                font-size: 1rem;
-            }
             
             .menu-toggle.active span:nth-child(1) {
                 transform: rotate(45deg) translate(5px, 5px);
@@ -579,6 +559,18 @@
             
             .section-title {
                 font-size: 2.5rem;
+            }
+
+            .game-date {
+                padding: 1.5rem;
+            }
+
+            .date-main {
+                font-size: 2rem;
+            }
+
+            .date-time {
+                font-size: 1rem;
             }
         }
 
@@ -628,25 +620,11 @@
     <section class="hero">
         <div class="hero-content">
             <h1 class="hero-title">RESTORE THE ROCK</h1>
-            <div class="countdown-container">
-                <p class="countdown-label">Season Opener Countdown</p>
-                <div class="countdown" id="countdown">
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="days">000</span>
-                        <span class="countdown-text">Days</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="hours">00</span>
-                        <span class="countdown-text">Hours</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="minutes">00</span>
-                        <span class="countdown-text">Minutes</span>
-                    </div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="seconds">00</span>
-                        <span class="countdown-text">Seconds</span>
-                    </div>
+            <div class="game-date-container">
+                <p class="game-date-label">Season Opener</p>
+                <div class="game-date">
+                    <span class="date-main">AUGUST 22, 2025</span>
+                    <span class="date-time">7:00 PM EST</span>
                 </div>
             </div>
             <img src="images/teamlogo.png" alt="Cardinals Logo" class="team-logo-hero">
@@ -696,8 +674,8 @@
     </footer>
 
     <script>
-        // Enhanced mobile menu functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Enhanced mobile menu functionality
             const menuToggle = document.getElementById('menuToggle');
             const navMenu = document.getElementById('navMenu');
             const header = document.getElementById('header');
