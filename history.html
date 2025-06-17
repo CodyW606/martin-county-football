@@ -25,14 +25,14 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
             background-color: var(--dark-bg);
             color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
-            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
         }
 
         /* Custom Scrollbar */
@@ -53,79 +53,77 @@
             background: #b91c1c;
         }
 
-        /* Header and Navigation */
+        /* Header with Glassmorphism Effect */
         .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
             background: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: all 0.3s ease;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            z-index: 101;
+            gap: 1rem;
         }
 
         .logo {
             height: 50px;
             width: auto;
-            margin-right: 0;
             filter: drop-shadow(0 0 10px var(--accent-glow));
         }
 
-        /* Mobile Menu Styles */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 30px;
-            height: 21px;
-            cursor: pointer;
-            z-index: 101;
+        .logo-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--primary-red), var(--columbia-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .menu-toggle span {
-            display: block;
-            height: 3px;
-            width: 100%;
-            background-color: var(--text-primary);
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-
+        /* Navigation */
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
-            justify-content: center;
+            gap: 2.5rem;
+            align-items: center;
         }
 
         .nav-menu li a {
             color: var(--text-primary);
             text-decoration: none;
             font-weight: 700;
+            font-size: 0.9rem;
             padding: 0.5rem 0;
-            transition: all 0.3s ease;
             position: relative;
+            transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
         }
 
-        .nav-menu li a:hover {
-            color: var(--columbia-blue);
-        }
-
-        .nav-menu li a::after {
+        .nav-menu li a::before {
             content: '';
             position: absolute;
             bottom: -2px;
@@ -136,27 +134,58 @@
             transition: width 0.3s ease;
         }
 
-        .nav-menu li a:hover::after {
+        .nav-menu li a:hover::before,
+        .nav-menu li a.active::before {
             width: 100%;
         }
 
+        .nav-menu li a:hover,
         .nav-menu li a.active {
             color: var(--columbia-blue);
         }
 
-        .nav-menu li a.active::after {
-            width: 100%;
-        }
-
-        .search-icon {
+        /* Mobile Menu Toggle */
+        .menu-toggle {
             display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
         }
 
-        /* Page Title */
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-top: 80px;
+            padding: 4rem 0 2rem;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8), rgba(26, 26, 26, 0.9)), 
+                        url('images/therockmarch24.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, var(--accent-glow) 0%, transparent 70%);
+        }
+
         .page-title {
             text-align: center;
-            padding: 3rem 0;
             position: relative;
+            z-index: 2;
         }
 
         .page-title h1 {
@@ -164,65 +193,39 @@
             font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 400;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 1rem;
+            letter-spacing: 4px;
             background: linear-gradient(135deg, var(--text-primary) 0%, var(--columbia-blue) 50%, var(--primary-red) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            position: relative;
-        }
-
-        .page-title h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-red), var(--columbia-blue));
-            border-radius: 2px;
+            margin-bottom: 0.5rem;
         }
 
         .page-title p {
-            color: var(--columbia-blue);
+            color: var(--text-secondary);
             font-size: 1.2rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-weight: 300;
         }
 
         /* History Database Section */
-        .database-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            background: var(--dark-card);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            margin-bottom: 4rem;
+        .main-content {
+            padding: 4rem 0;
+            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
         }
 
-        .database-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-red), var(--columbia-blue));
-            border-radius: 20px 20px 0 0;
+        .database-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
         .intro {
             text-align: center;
-            margin-bottom: 2rem;
-            line-height: 1.6;
+            margin-bottom: 3rem;
+            line-height: 1.8;
             color: var(--text-secondary);
             font-size: 1.1rem;
+            font-weight: 300;
         }
 
         /* Stats Cards */
@@ -230,15 +233,16 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 1.5rem;
+            background: var(--dark-card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -250,21 +254,24 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 2px;
+            height: 3px;
             background: linear-gradient(90deg, var(--primary-red), var(--columbia-blue));
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(135, 206, 235, 0.2);
         }
 
         .stat-value {
             font-family: 'Bebas Neue', cursive;
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 400;
-            color: var(--primary-red);
+            background: linear-gradient(135deg, var(--primary-red), var(--columbia-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 0.5rem;
             letter-spacing: 1px;
         }
@@ -272,147 +279,141 @@
         .stat-label {
             color: var(--text-secondary);
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 300;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         /* Filter Section */
         .filter-section {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
+            background: var(--dark-card);
+            border-radius: 20px;
             padding: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .section-title {
             font-family: 'Bebas Neue', cursive;
-            font-size: 1.8rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
+            font-size: 2rem;
+            margin-bottom: 2rem;
             text-align: center;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-primary);
         }
 
         .filter-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .filter-group {
-            margin-bottom: 1rem;
+            margin-bottom: 0;
         }
 
         .filter-label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.9rem;
+            color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
 
         .filter-select, .filter-input {
             width: 100%;
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
             color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
-        }
-
-        .filter-select option {
-            background: var(--dark-card);
-            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
         }
 
         .filter-select:focus, .filter-input:focus {
             outline: none;
             border-color: var(--columbia-blue);
-            box-shadow: 0 0 0 2px rgba(135, 206, 235, 0.2);
-            background: rgba(255, 255, 255, 0.08);
+            background-color: rgba(255, 255, 255, 0.08);
         }
 
-        .filter-input::placeholder {
-            color: var(--text-secondary);
+        .filter-select option {
+            background-color: var(--dark-card);
+            color: var(--text-primary);
         }
 
         .filter-buttons {
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 2rem;
             border: none;
-            border-radius: 8px;
-            font-weight: 700;
+            border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-red), #b91c1c);
-            color: var(--text-primary);
+            color: white;
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #b91c1c, #991b1b);
+            background: transparent;
+            border: 1px solid var(--primary-red);
+            color: var(--primary-red);
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
         }
 
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-secondary);
+            border: 1px solid transparent;
         }
 
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.15);
+            color: var(--text-primary);
             transform: translateY(-2px);
         }
 
         /* Data Table */
         .table-container {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
+            background: var(--dark-card);
+            border-radius: 20px;
             padding: 2rem;
             margin-bottom: 2rem;
-            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .table-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
         }
 
         .results-info {
             color: var(--text-secondary);
-            font-weight: 500;
+            font-weight: 300;
         }
 
-        .per-page {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-primary);
-            font-weight: 500;
+        .per-page label {
+            color: var(--text-secondary);
+            margin-right: 0.5rem;
+            font-weight: 300;
         }
 
         .table-wrapper {
@@ -423,103 +424,105 @@
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            background: transparent;
         }
 
         .data-table th {
-            background: linear-gradient(135deg, var(--primary-red), #b91c1c);
-            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
             padding: 1rem;
             text-align: left;
             cursor: pointer;
             position: relative;
             user-select: none;
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.1rem;
-            font-weight: 400;
-            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 600;
             text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
             transition: all 0.3s ease;
         }
 
         .data-table th:hover {
-            background: linear-gradient(135deg, #b91c1c, #991b1b);
+            background-color: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
         }
 
         .data-table th.sort-asc::after {
             content: '▲';
             position: absolute;
-            right: 8px;
+            right: 12px;
             color: var(--columbia-blue);
         }
 
         .data-table th.sort-desc::after {
             content: '▼';
             position: absolute;
-            right: 8px;
+            right: 12px;
             color: var(--columbia-blue);
         }
 
         .data-table td {
             padding: 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.3s ease;
+            color: var(--text-primary);
+            font-weight: 300;
         }
 
         .data-table tr:last-child td {
             border-bottom: none;
         }
 
-        .data-table tbody tr:nth-child(even) td {
-            background: rgba(255, 255, 255, 0.03);
+        .data-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.02);
         }
 
-        .data-table tbody tr:hover td {
-            background: rgba(135, 206, 235, 0.1);
+        .data-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
         }
 
         .result-w {
-            color: #4ade80;
-            font-weight: bold;
+            color: #4CAF50;
+            font-weight: 600;
         }
 
         .result-l {
-            color: #f87171;
-            font-weight: bold;
+            color: #F44336;
+            font-weight: 600;
         }
 
         .result-t {
-            color: #fbbf24;
-            font-weight: bold;
+            color: #FFC107;
+            font-weight: 600;
         }
 
         .pagination {
             display: flex;
             justify-content: center;
             gap: 0.5rem;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
         }
 
         .page-btn {
-            padding: 0.5rem 0.75rem;
+            padding: 0.5rem 1rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            background: rgba(255, 255, 255, 0.02);
-            color: var(--text-primary);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
 
-        .page-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--columbia-blue);
+        .page-btn:hover:not(:disabled) {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            transform: translateY(-2px);
         }
 
         .page-btn.active {
-            background: var(--primary-red);
-            color: var(--text-primary);
-            border-color: var(--primary-red);
+            background: linear-gradient(135deg, var(--primary-red), #b91c1c);
+            color: white;
+            border-color: transparent;
         }
 
         .page-btn:disabled {
@@ -529,35 +532,34 @@
 
         .loading {
             text-align: center;
-            padding: 2rem;
+            padding: 3rem;
             font-size: 1.2rem;
             color: var(--text-secondary);
+            font-weight: 300;
         }
 
         .error-message {
-            background: rgba(220, 38, 38, 0.1);
-            color: #fca5a5;
-            padding: 1rem;
-            border-radius: 8px;
+            background-color: rgba(244, 67, 54, 0.1);
+            color: #F44336;
+            padding: 1.5rem;
+            border-radius: 10px;
             margin-bottom: 1rem;
             text-align: center;
-            border: 1px solid rgba(220, 38, 38, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.3);
         }
 
         .no-data {
             text-align: center;
-            padding: 2rem;
+            padding: 3rem;
             color: var(--text-secondary);
             font-style: italic;
+            font-weight: 300;
         }
 
-        /* Footer Section */
+        /* Footer */
         .footer {
             background: var(--dark-card);
-            color: var(--text-primary);
             padding: 3rem 2rem 2rem;
-            text-align: center;
-            margin-top: 3rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
         }
@@ -570,6 +572,12 @@
             right: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--columbia-blue), transparent);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         .social-icons {
@@ -615,18 +623,17 @@
             
             .nav-menu {
                 position: fixed;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
                 top: 0;
                 right: -100%;
                 width: 100%;
                 height: 100vh;
                 background: rgba(10, 10, 10, 0.95);
                 backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 gap: 2rem;
                 transition: right 0.3s ease;
-                z-index: 100;
             }
             
             .nav-menu.active {
@@ -638,9 +645,8 @@
                 font-weight: 700;
             }
             
-            /* Menu toggle animation */
             .menu-toggle.active span:nth-child(1) {
-                transform: translateY(9px) rotate(45deg);
+                transform: rotate(45deg) translate(5px, 5px);
             }
             
             .menu-toggle.active span:nth-child(2) {
@@ -648,16 +654,15 @@
             }
             
             .menu-toggle.active span:nth-child(3) {
-                transform: translateY(-9px) rotate(-45deg);
+                transform: rotate(-45deg) translate(7px, -6px);
             }
             
-            .page-title h1 {
-                font-size: 2rem;
+            .page-header {
+                background-attachment: scroll;
             }
 
-            .database-container {
-                padding: 2rem 1.5rem;
-                margin: 1rem 2rem 3rem;
+            .page-title h1 {
+                font-size: 2.5rem;
             }
 
             .filter-grid {
@@ -667,6 +672,10 @@
             .filter-buttons {
                 flex-direction: column;
                 gap: 0.5rem;
+            }
+
+            .btn {
+                width: 100%;
             }
 
             .table-controls {
@@ -681,189 +690,188 @@
             }
 
             .stat-card {
-                padding: 1rem;
+                padding: 1.5rem;
             }
 
             .stat-value {
                 font-size: 2rem;
             }
         }
-
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Header and Navigation - EXACT SAME STRUCTURE -->
-    <header class="header">
-        <div class="logo-container">
-            <img src="teamlogo.png" alt="Cardinals Logo" class="logo">
-        </div>
-        
-        <div class="menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
-        <nav>
-            <ul class="nav-menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="schedule.html">Schedule</a></li>
-                <li><a href="roster.html">Roster</a></li>
-                <li><a href="staff.html">Staff</a></li>
-                <li><a href="history.html" class="active">History</a></li>
-            </ul>
-        </nav>
-        
-        <div class="search-icon">
-            <i class="fas fa-search"></i>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="teamlogo.png" alt="Cardinals Logo" class="logo">
+                <span class="logo-text">MARTIN COUNTY</span>
+            </div>
+            
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                    <li><a href="roster.html">Roster</a></li>
+                    <li><a href="staff.html">Staff</a></li>
+                    <li><a href="history.html" class="active">History</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <!-- Page Title - EXACT SAME STRUCTURE -->
-    <div class="page-title">
-        <h1>Complete Game History</h1>
-        <p>Martin County Cardinals (Previously Sheldon Clark)</p>
-    </div>
-
-    <!-- Database Container - EXACT SAME STRUCTURE -->
-    <div class="database-container">
-        <div class="intro">
-            <p>Browse through the complete history of Martin County/Sheldon Clark football games from 1981 to the present day. Use the filters below to search by year, opponent, result, or coach.</p>
-        </div>
-
-        <!-- Stats Cards - EXACT SAME STRUCTURE -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="totalGames">-</div>
-                <div class="stat-label">Total Games</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalWins">-</div>
-                <div class="stat-label">Wins</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalLosses">-</div>
-                <div class="stat-label">Losses</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalTies">-</div>
-                <div class="stat-label">Ties</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="winPercentage">-</div>
-                <div class="stat-label">Win Percentage</div>
-            </div>
-        </div>
-
-        <!-- Filter Section - EXACT SAME STRUCTURE -->
-        <div class="filter-section">
-            <h2 class="section-title">Search & Filter Games</h2>
-            <div class="filter-grid">
-                <div class="filter-group">
-                    <label class="filter-label" for="yearFilter">Year</label>
-                    <select id="yearFilter" class="filter-select">
-                        <option value="">All Years</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label class="filter-label" for="opponentFilter">Opponent</label>
-                    <select id="opponentFilter" class="filter-select">
-                        <option value="">All Opponents</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label class="filter-label" for="resultFilter">Result</label>
-                    <select id="resultFilter" class="filter-select">
-                        <option value="">All Results</option>
-                        <option value="W">Wins</option>
-                        <option value="L">Losses</option>
-                        <option value="T">Ties</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label class="filter-label" for="coachFilter">Coach</label>
-                    <select id="coachFilter" class="filter-select">
-                        <option value="">All Coaches</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label class="filter-label" for="locationTypeFilter">Game Type</label>
-                    <select id="locationTypeFilter" class="filter-select">
-                        <option value="">All Games</option>
-                        <option value="Home">Home Games</option>
-                        <option value="Away">Away Games</option>
-                        <option value="Neutral">Neutral Site</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label class="filter-label" for="searchInput">Search</label>
-                    <input type="text" id="searchInput" class="filter-input" placeholder="Search any field...">
-                </div>
-            </div>
-            <div class="filter-buttons">
-                <button id="applyFiltersBtn" class="btn btn-primary">Apply Filters</button>
-                <button id="resetFiltersBtn" class="btn btn-secondary">Reset Filters</button>
-            </div>
-        </div>
-
-        <!-- Data Table - EXACT SAME STRUCTURE -->
-        <div class="table-container">
-            <div class="table-controls">
-                <div class="results-info" id="resultsInfo">Showing 0 of 0 games</div>
-                <div class="per-page">
-                    <label for="perPageSelect">Show</label>
-                    <select id="perPageSelect" class="filter-select">
-                        <option value="10">10</option>
-                        <option value="25" selected>25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="all">All</option>
-                    </select>
-                </div>
-            </div>
-            <div class="table-wrapper">
-                <table class="data-table" id="gameTable">
-                    <thead>
-                        <tr>
-                            <th data-sort="Year">Year</th>
-                            <th data-sort="Date">Date</th>
-                            <th data-sort="Opponent">Opponent</th>
-                            <th data-sort="Result">Result</th>
-                            <th>Score</th>
-                            <th data-sort="Where">Location</th>
-                            <th data-sort="Coach">Coach</th>
-                        </tr>
-                    </thead>
-                    <tbody id="gameTableBody">
-                        <tr>
-                            <td colspan="7" class="loading">Loading game history...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination" id="pagination"></div>
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-title">
+            <h1>Complete Game History</h1>
+            <p>Martin County Cardinals (Previously Sheldon Clark)</p>
         </div>
     </div>
 
-    <!-- Footer Section - EXACT SAME STRUCTURE -->
+    <!-- Main Content -->
+    <section class="main-content">
+        <!-- Database Container -->
+        <div class="database-container">
+            <div class="intro">
+                <p>Browse through the complete history of Martin County/Sheldon Clark football games from 1981 to the present day. Use the filters below to search by year, opponent, result, or coach.</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalGames">-</div>
+                    <div class="stat-label">Total Games</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalWins">-</div>
+                    <div class="stat-label">Wins</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalLosses">-</div>
+                    <div class="stat-label">Losses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalTies">-</div>
+                    <div class="stat-label">Ties</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="winPercentage">-</div>
+                    <div class="stat-label">Win Percentage</div>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <h2 class="section-title">Search & Filter Games</h2>
+                <div class="filter-grid">
+                    <div class="filter-group">
+                        <label class="filter-label" for="yearFilter">Year</label>
+                        <select id="yearFilter" class="filter-select">
+                            <option value="">All Years</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label" for="opponentFilter">Opponent</label>
+                        <select id="opponentFilter" class="filter-select">
+                            <option value="">All Opponents</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label" for="resultFilter">Result</label>
+                        <select id="resultFilter" class="filter-select">
+                            <option value="">All Results</option>
+                            <option value="W">Wins</option>
+                            <option value="L">Losses</option>
+                            <option value="T">Ties</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label" for="coachFilter">Coach</label>
+                        <select id="coachFilter" class="filter-select">
+                            <option value="">All Coaches</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label" for="locationTypeFilter">Game Type</label>
+                        <select id="locationTypeFilter" class="filter-select">
+                            <option value="">All Games</option>
+                            <option value="Home">Home Games</option>
+                            <option value="Away">Away Games</option>
+                            <option value="Neutral">Neutral Site</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label" for="searchInput">Search</label>
+                        <input type="text" id="searchInput" class="filter-input" placeholder="Search any field...">
+                    </div>
+                </div>
+                <div class="filter-buttons">
+                    <button id="applyFiltersBtn" class="btn btn-primary">Apply Filters</button>
+                    <button id="resetFiltersBtn" class="btn btn-secondary">Reset Filters</button>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="table-container">
+                <div class="table-controls">
+                    <div class="results-info" id="resultsInfo">Showing 0 of 0 games</div>
+                    <div class="per-page">
+                        <label for="perPageSelect">Show</label>
+                        <select id="perPageSelect" class="filter-select" style="width: auto; min-width: 80px;">
+                            <option value="10">10</option>
+                            <option value="25" selected>25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="all">All</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="gameTable">
+                        <thead>
+                            <tr>
+                                <th data-sort="Year">Year</th>
+                                <th data-sort="Date">Date</th>
+                                <th data-sort="Opponent">Opponent</th>
+                                <th data-sort="Result">Result</th>
+                                <th>Score</th>
+                                <th data-sort="Where">Location</th>
+                                <th data-sort="Coach">Coach</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gameTableBody">
+                            <tr>
+                                <td colspan="7" class="loading">Loading game history...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer class="footer">
-        <div class="social-icons">
-            <a href="https://www.facebook.com/MCCardinalFootball" class="social-icon" target="_blank">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://x.com/MartinCoFball" class="social-icon" target="_blank">
-                <i class="fab fa-twitter"></i>
-            </a>
+        <div class="footer-content">
+            <div class="social-icons">
+                <a href="https://www.facebook.com/MCCardinalFootball" class="social-icon" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://x.com/MartinCoFball" class="social-icon" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+            <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
         </div>
-        <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
     </footer>
 
-    <!-- EXACT SAME JAVASCRIPT - ZERO CHANGES -->
     <script>
         // Add helper function to format Excel dates
         function formatDate(excelDate) {
@@ -885,8 +893,9 @@
     
         // Mobile menu toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navMenu = document.querySelector('.nav-menu');
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.getElementById('navMenu');
+            const header = document.getElementById('header');
             
             menuToggle.addEventListener('click', function() {
                 navMenu.classList.toggle('active');
@@ -895,4 +904,382 @@
             
             // Close menu when a link is clicked
             const navLinks = document.querySelectorAll('.nav-menu li a');
-            nav
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navMenu.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                });
+            });
+
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Load Excel data
+            initializeDatabase();
+        });
+
+        // Global variables
+        let allGames = [];
+        let filteredGames = [];
+        let currentPage = 1;
+        let gamesPerPage = 25;
+        let currentSort = { field: 'Year', direction: 'desc' };
+
+        async function initializeDatabase() {
+            try {
+                // Fetch the Excel file
+                const response = await fetch('Martin County Football Spreadsheet.xlsx');
+                const arrayBuffer = await response.arrayBuffer();
+                
+                // Read the workbook
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                
+                // Get the first sheet
+                const sheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[sheetName];
+                
+                // Convert to JSON
+                allGames = XLSX.utils.sheet_to_json(worksheet);
+                
+                // Initialize filters, stats, and table
+                initializeFilters();
+                updateStats(allGames);
+                initializeTable();
+                
+                // Set initial filtered data and display
+                filteredGames = [...allGames];
+                sortData();
+                displayData();
+            } catch (error) {
+                console.error('Error loading or processing Excel data:', error);
+                document.getElementById('gameTableBody').innerHTML = 
+                    `<tr><td colspan="7" class="error-message">
+                        Unable to load game history data. Please ensure the Excel file is available.
+                    </td></tr>`;
+            }
+        }
+
+        function initializeFilters() {
+            // Get unique values for each filter
+            const years = [...new Set(allGames.map(game => game.Year))].sort((a, b) => b - a);
+            const opponents = [...new Set(allGames.map(game => game.Opponent))].sort();
+            const coaches = [...new Set(allGames.map(game => game.Coach).filter(Boolean))].sort();
+            
+            // Populate year filter
+            const yearFilter = document.getElementById('yearFilter');
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearFilter.appendChild(option);
+            });
+            
+            // Populate opponent filter
+            const opponentFilter = document.getElementById('opponentFilter');
+            opponents.forEach(opponent => {
+                const option = document.createElement('option');
+                option.value = opponent;
+                option.textContent = opponent;
+                opponentFilter.appendChild(option);
+            });
+            
+            // Populate coach filter
+            const coachFilter = document.getElementById('coachFilter');
+            coaches.forEach(coach => {
+                const option = document.createElement('option');
+                option.value = coach;
+                option.textContent = coach;
+                coachFilter.appendChild(option);
+            });
+            
+            // Set up event listeners
+            document.getElementById('applyFiltersBtn').addEventListener('click', applyFilters);
+            document.getElementById('resetFiltersBtn').addEventListener('click', resetFilters);
+            document.getElementById('perPageSelect').addEventListener('change', updateGamesPerPage);
+            document.getElementById('searchInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    applyFilters();
+                }
+            });
+        }
+
+        function updateStats(games) {
+            const totalGames = games.length;
+            const wins = games.filter(game => game.Result === 'W').length;
+            const losses = games.filter(game => game.Result === 'L').length;
+            const ties = games.filter(game => game.Result === 'T').length;
+            const winPercentage = totalGames > 0 ? ((wins + (ties * 0.5)) / totalGames * 100).toFixed(1) : 0;
+            
+            document.getElementById('totalGames').textContent = totalGames;
+            document.getElementById('totalWins').textContent = wins;
+            document.getElementById('totalLosses').textContent = losses;
+            document.getElementById('totalTies').textContent = ties;
+            document.getElementById('winPercentage').textContent = winPercentage + '%';
+        }
+
+        function initializeTable() {
+            // Set up sorting functionality
+            const tableHeaders = document.querySelectorAll('.data-table th[data-sort]');
+            tableHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const sortField = header.getAttribute('data-sort');
+                    
+                    // Toggle sort direction
+                    if (currentSort.field === sortField) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.field = sortField;
+                        currentSort.direction = 'asc';
+                    }
+                    
+                    // Update header classes
+                    tableHeaders.forEach(h => {
+                        h.classList.remove('sort-asc', 'sort-desc');
+                    });
+                    
+                    header.classList.add(`sort-${currentSort.direction}`);
+                    
+                    // Sort and redisplay data
+                    sortData();
+                    displayData();
+                });
+            });
+        }
+
+        function applyFilters() {
+            const yearValue = document.getElementById('yearFilter').value;
+            const opponentValue = document.getElementById('opponentFilter').value;
+            const resultValue = document.getElementById('resultFilter').value;
+            const coachValue = document.getElementById('coachFilter').value;
+            const locationTypeValue = document.getElementById('locationTypeFilter').value;
+            const searchValue = document.getElementById('searchInput').value.toLowerCase();
+            
+            filteredGames = allGames.filter(game => {
+                // Apply each filter if it has a value
+                if (yearValue && game.Year != yearValue) return false;
+                if (opponentValue && game.Opponent !== opponentValue) return false;
+                if (resultValue && game.Result !== resultValue) return false;
+                if (coachValue && game.Coach !== coachValue) return false;
+                
+                // Location type filter
+                if (locationTypeValue) {
+                    if (locationTypeValue === 'Home' && game.Where !== 'Home') return false;
+                    if (locationTypeValue === 'Away' && game.Where !== 'Away') return false;
+                    if (locationTypeValue === 'Neutral' && game.Where !== 'Neutral') return false;
+                }
+                
+                // Search across all fields
+                if (searchValue) {
+                    const searchableFields = [
+                        game.Year, game.Date, game.Opponent, game.Result,
+                        game.Us, game.Them, game.Where, game.Location, game.Coach
+                    ];
+                    
+                    const matchesSearch = searchableFields.some(field => {
+                        return field && String(field).toLowerCase().includes(searchValue);
+                    });
+                    
+                    if (!matchesSearch) return false;
+                }
+                
+                return true;
+            });
+            
+            // Update stats based on filtered data
+            updateStats(filteredGames);
+            
+            // Reset pagination and display data
+            currentPage = 1;
+            sortData();
+            displayData();
+        }
+
+        function resetFilters() {
+            // Reset all filter inputs
+            document.getElementById('yearFilter').value = '';
+            document.getElementById('opponentFilter').value = '';
+            document.getElementById('resultFilter').value = '';
+            document.getElementById('coachFilter').value = '';
+            document.getElementById('locationTypeFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            
+            // Reset to all games
+            filteredGames = [...allGames];
+            
+            // Update stats and display
+            updateStats(filteredGames);
+            currentPage = 1;
+            sortData();
+            displayData();
+        }
+
+        function updateGamesPerPage() {
+            const perPageValue = document.getElementById('perPageSelect').value;
+            gamesPerPage = perPageValue === 'all' ? filteredGames.length : parseInt(perPageValue);
+            currentPage = 1;
+            displayData();
+        }
+
+        function sortData() {
+            filteredGames.sort((a, b) => {
+                let aValue = a[currentSort.field];
+                let bValue = b[currentSort.field];
+                
+                // Handle dates appropriately
+                if (currentSort.field === 'Date') {
+                    // Convert date strings to comparable values
+                    // Format could be "DD-MMM" like "21-Aug"
+                    const months = {
+                        'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 
+                        'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
+                    };
+                    
+                    function parseDate(dateStr) {
+                        const parts = dateStr.split('-');
+                        if (parts.length === 2) {
+                            const day = parseInt(parts[0]);
+                            const month = months[parts[1]] || 0;
+                            return month * 100 + day; // Numeric representation MM/DD
+                        }
+                        return 0;
+                    }
+                    
+                    aValue = parseDate(String(aValue));
+                    bValue = parseDate(String(bValue));
+                }
+                
+                // Ensure we're comparing strings for string fields
+                if (typeof aValue === 'string' && typeof bValue === 'string') {
+                    aValue = aValue.toLowerCase();
+                    bValue = bValue.toLowerCase();
+                }
+                
+                // Handle null/undefined values
+                if (aValue === undefined || aValue === null) aValue = '';
+                if (bValue === undefined || bValue === null) bValue = '';
+                
+                // Compare based on direction
+                if (currentSort.direction === 'asc') {
+                    return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+                } else {
+                    return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+                }
+            });
+        }
+
+        function displayData() {
+            const tableBody = document.getElementById('gameTableBody');
+            
+            // Clear existing content
+            tableBody.innerHTML = '';
+            
+            // Show no data message if needed
+            if (filteredGames.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="no-data">No games match your search criteria.</td></tr>';
+                document.getElementById('resultsInfo').textContent = 'Showing 0 of 0 games';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+            
+            // Calculate pagination
+            const totalPages = gamesPerPage === filteredGames.length ? 1 : Math.ceil(filteredGames.length / gamesPerPage);
+            if (currentPage > totalPages) currentPage = 1;
+            
+            const startIndex = (currentPage - 1) * gamesPerPage;
+            const endIndex = Math.min(startIndex + gamesPerPage, filteredGames.length);
+            const displayedGames = filteredGames.slice(startIndex, endIndex);
+            
+            // Update results info
+            document.getElementById('resultsInfo').textContent = 
+                `Showing ${startIndex + 1}-${endIndex} of ${filteredGames.length} games`;
+            
+            // Create table rows
+            displayedGames.forEach(game => {
+                const row = document.createElement('tr');
+                
+                // Determine result class for styling
+                let resultClass = '';
+                if (game.Result === 'W') resultClass = 'result-w';
+                else if (game.Result === 'L') resultClass = 'result-l';
+                else resultClass = 'result-t';
+                
+                row.innerHTML = `
+                    <td>${game.Year}</td>
+                    <td>${formatDate(game.Date)}</td>
+                    <td>${game.Opponent}</td>
+                    <td class="${resultClass}">${game.Result}</td>
+                    <td>${game.Us}-${game.Them}</td>
+                    <td>${game.Where || ''}</td>
+                    <td>${game.Coach || ''}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Create pagination controls
+            updatePagination(totalPages);
+        }
+
+        function updatePagination(totalPages) {
+            const paginationElement = document.getElementById('pagination');
+            paginationElement.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+            
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '&laquo;';
+            prevButton.className = 'page-btn';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayData();
+                }
+            });
+            paginationElement.appendChild(prevButton);
+            
+            // Page buttons
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.className = 'page-btn';
+                if (i === currentPage) pageButton.classList.add('active');
+                
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    displayData();
+                });
+                
+                paginationElement.appendChild(pageButton);
+            }
+            
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '&raquo;';
+            nextButton.className = 'page-btn';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayData();
+                }
+            });
+            paginationElement.appendChild(nextButton);
+        }
+    </script>
+</body>
+</html>
