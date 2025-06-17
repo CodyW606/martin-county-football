@@ -111,11 +111,14 @@
         .nav-menu li a {
             color: var(--text-primary);
             text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
+            font-weight: 700;
+            font-size: 0.9rem;
             padding: 0.5rem 0;
             position: relative;
             transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
         }
 
         .nav-menu li a::before {
@@ -206,6 +209,65 @@
             font-weight: 300;
             color: var(--text-secondary);
             margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+
+        /* Countdown Styles */
+        .countdown-container {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .countdown-label {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--columbia-blue);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .countdown-item {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem 1rem;
+            min-width: 100px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .countdown-item:hover {
+            background: rgba(220, 38, 38, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.2);
+        }
+
+        .countdown-number {
+            display: block;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .countdown-text {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--columbia-blue);
+            text-transform: uppercase;
             letter-spacing: 1px;
         }
 
@@ -476,7 +538,25 @@
             }
             
             .nav-menu li a {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+                font-weight: 700;
+            }
+
+            .countdown {
+                gap: 1rem;
+            }
+
+            .countdown-item {
+                min-width: 80px;
+                padding: 1rem 0.8rem;
+            }
+
+            .countdown-number {
+                font-size: 2rem;
+            }
+
+            .countdown-text {
+                font-size: 0.8rem;
             }
             
             .menu-toggle.active span:nth-child(1) {
@@ -533,7 +613,7 @@
         <div class="header-content">
             <div class="logo-container">
                 <img src="images/teamlogo.png" alt="Cardinals Logo" class="logo">
-                <span class="logo-text">CARDINALS</span>
+                <span class="logo-text">MARTIN COUNTY</span>
             </div>
             
             <div class="menu-toggle" id="menuToggle">
@@ -558,7 +638,27 @@
     <section class="hero">
         <div class="hero-content">
             <h1 class="hero-title">RESTORE THE ROCK</h1>
-            <p class="hero-subtitle">Championship Season 2025</p>
+            <div class="countdown-container">
+                <p class="countdown-label">Season Opener Countdown</p>
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="days">000</span>
+                        <span class="countdown-text">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="hours">00</span>
+                        <span class="countdown-text">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="minutes">00</span>
+                        <span class="countdown-text">Minutes</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="seconds">00</span>
+                        <span class="countdown-text">Seconds</span>
+                    </div>
+                </div>
+            </div>
             <img src="images/teamlogo.png" alt="Cardinals Logo" class="team-logo-hero">
             <p class="sponsor-text">Message us today to find out how to get your logo here!</p>
         </div>
