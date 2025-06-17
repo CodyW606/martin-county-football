@@ -25,14 +25,14 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
             background-color: var(--dark-bg);
             color: var(--text-primary);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
             overflow-x: hidden;
+            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
         }
 
         /* Custom Scrollbar */
@@ -53,84 +53,79 @@
             background: #b91c1c;
         }
 
-        /* Header with Glassmorphism Effect */
+        /* Header and Navigation */
         .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
             background: rgba(10, 10, 10, 0.8);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .header.scrolled {
-            background: rgba(10, 10, 10, 0.95);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
+            color: var(--text-primary);
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 1rem;
-        }
-
-        .logo-container a {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            text-decoration: none;
+            z-index: 101;
         }
 
         .logo {
             height: 50px;
             width: auto;
+            margin-right: 0;
             filter: drop-shadow(0 0 10px var(--accent-glow));
         }
 
-        .logo-text {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.5rem;
-            font-weight: 400;
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--primary-red), var(--columbia-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* Mobile Menu Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 101;
         }
 
-        /* Navigation */
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--text-primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2.5rem;
-            align-items: center;
+            gap: 2rem;
+            justify-content: center;
         }
 
         .nav-menu li a {
             color: var(--text-primary);
             text-decoration: none;
             font-weight: 700;
-            font-size: 0.9rem;
             padding: 0.5rem 0;
-            position: relative;
             transition: all 0.3s ease;
+            position: relative;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
         }
 
-        .nav-menu li a::before {
+        .nav-menu li a:hover {
+            color: var(--columbia-blue);
+        }
+
+        .nav-menu li a::after {
             content: '';
             position: absolute;
             bottom: -2px;
@@ -141,54 +136,27 @@
             transition: width 0.3s ease;
         }
 
-        .nav-menu li a:hover::before,
-        .nav-menu li a.active::before {
+        .nav-menu li a:hover::after {
             width: 100%;
         }
 
-        .nav-menu li a:hover,
         .nav-menu li a.active {
             color: var(--columbia-blue);
         }
 
-        /* Mobile Menu Toggle */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 4px;
-        }
-
-        .menu-toggle span {
-            width: 25px;
-            height: 2px;
-            background: var(--text-primary);
-            border-radius: 2px;
-            transition: all 0.3s ease;
+        .nav-menu li a.active::after {
+            width: 100%;
         }
 
         .search-icon {
             display: none;
         }
 
-        /* Main Content */
-        .main-content {
-            padding-top: 100px;
-            min-height: 100vh;
-            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
         /* Page Title */
         .page-title {
             text-align: center;
             padding: 3rem 0;
-            animation: fadeInUp 1s ease-out;
+            position: relative;
         }
 
         .page-title h1 {
@@ -227,13 +195,15 @@
 
         /* History Database Section */
         .database-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
             background: var(--dark-card);
             border-radius: 20px;
-            padding: 3rem;
-            margin: 2rem 0 4rem;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
+            margin-bottom: 4rem;
         }
 
         .database-container::before {
@@ -430,8 +400,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
         }
 
         .results-info {
@@ -445,14 +413,6 @@
             gap: 0.5rem;
             color: var(--text-primary);
             font-weight: 500;
-        }
-
-        .per-page select {
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            color: var(--text-primary);
         }
 
         .table-wrapper {
@@ -591,10 +551,13 @@
             font-style: italic;
         }
 
-        /* Footer */
+        /* Footer Section */
         .footer {
             background: var(--dark-card);
+            color: var(--text-primary);
             padding: 3rem 2rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
         }
@@ -607,12 +570,6 @@
             right: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--columbia-blue), transparent);
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            text-align: center;
         }
 
         .social-icons {
@@ -650,19 +607,7 @@
             font-weight: 300;
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive Design */
+        /* Media Queries */
         @media (max-width: 768px) {
             .menu-toggle {
                 display: flex;
@@ -670,17 +615,18 @@
             
             .nav-menu {
                 position: fixed;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 top: 0;
                 right: -100%;
                 width: 100%;
                 height: 100vh;
                 background: rgba(10, 10, 10, 0.95);
                 backdrop-filter: blur(20px);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
                 gap: 2rem;
                 transition: right 0.3s ease;
+                z-index: 100;
             }
             
             .nav-menu.active {
@@ -692,8 +638,9 @@
                 font-weight: 700;
             }
             
+            /* Menu toggle animation */
             .menu-toggle.active span:nth-child(1) {
-                transform: rotate(45deg) translate(5px, 5px);
+                transform: translateY(9px) rotate(45deg);
             }
             
             .menu-toggle.active span:nth-child(2) {
@@ -701,12 +648,16 @@
             }
             
             .menu-toggle.active span:nth-child(3) {
-                transform: rotate(-45deg) translate(7px, -6px);
+                transform: translateY(-9px) rotate(-45deg);
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
             }
 
             .database-container {
                 padding: 2rem 1.5rem;
-                margin: 1rem 0 3rem;
+                margin: 1rem 2rem 3rem;
             }
 
             .filter-grid {
@@ -746,162 +697,202 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header" id="header">
-        <div class="header-content">
-            <div class="logo-container">
-                <img src="teamlogo.png" alt="Cardinals Logo" class="logo">
-            </div>
-            
-            <div class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            
-            <nav>
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="schedule.html">Schedule</a></li>
-                    <li><a href="roster.html">Roster</a></li>
-                    <li><a href="staff.html">Staff</a></li>
-                    <li><a href="history.html" class="active">History</a></li>
-                </ul>
-            </nav>
-            
-            <div class="search-icon">
-                <i class="fas fa-search"></i>
-            </div>
+    <!-- Header and Navigation - EXACT SAME STRUCTURE -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="teamlogo.png" alt="Cardinals Logo" class="logo">
+        </div>
+        
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="roster.html">Roster</a></li>
+                <li><a href="staff.html">Staff</a></li>
+                <li><a href="history.html" class="active">History</a></li>
+            </ul>
+        </nav>
+        
+        <div class="search-icon">
+            <i class="fas fa-search"></i>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div class="container">
-            <!-- Page Title -->
-            <div class="page-title">
-                <h1>Complete Game History</h1>
-                <p>Martin County Cardinals (Previously Sheldon Clark)</p>
+    <!-- Page Title - EXACT SAME STRUCTURE -->
+    <div class="page-title">
+        <h1>Complete Game History</h1>
+        <p>Martin County Cardinals (Previously Sheldon Clark)</p>
+    </div>
+
+    <!-- Database Container - EXACT SAME STRUCTURE -->
+    <div class="database-container">
+        <div class="intro">
+            <p>Browse through the complete history of Martin County/Sheldon Clark football games from 1981 to the present day. Use the filters below to search by year, opponent, result, or coach.</p>
+        </div>
+
+        <!-- Stats Cards - EXACT SAME STRUCTURE -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalGames">-</div>
+                <div class="stat-label">Total Games</div>
             </div>
-
-            <!-- Database Container -->
-            <div class="database-container">
-                <div class="intro">
-                    <p>Browse through the complete history of Martin County/Sheldon Clark football games from 1981 to the present day. Use the filters below to search by year, opponent, result, or coach.</p>
-                </div>
-
-                <!-- Stats Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalGames">-</div>
-                        <div class="stat-label">Total Games</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalWins">-</div>
-                        <div class="stat-label">Wins</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalLosses">-</div>
-                        <div class="stat-label">Losses</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalTies">-</div>
-                        <div class="stat-label">Ties</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="winPercentage">-</div>
-                        <div class="stat-label">Win Percentage</div>
-                    </div>
-                </div>
-
-                <!-- Filter Section -->
-                <div class="filter-section">
-                    <h2 class="section-title">Search & Filter Games</h2>
-                    <div class="filter-grid">
-                        <div class="filter-group">
-                            <label class="filter-label" for="yearFilter">Year</label>
-                            <select id="yearFilter" class="filter-select">
-                                <option value="">All Years</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label class="filter-label" for="opponentFilter">Opponent</label>
-                            <select id="opponentFilter" class="filter-select">
-                                <option value="">All Opponents</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label class="filter-label" for="resultFilter">Result</label>
-                            <select id="resultFilter" class="filter-select">
-                                <option value="">All Results</option>
-                                <option value="W">Wins</option>
-                                <option value="L">Losses</option>
-                                <option value="T">Ties</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label class="filter-label" for="coachFilter">Coach</label>
-                            <select id="coachFilter" class="filter-select">
-                                <option value="">All Coaches</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label class="filter-label" for="locationTypeFilter">Game Type</label>
-                            <select id="locationTypeFilter" class="filter-select">
-                                <option value="">All Games</option>
-                                <option value="Home">Home Games</option>
-                                <option value="Away">Away Games</option>
-                                <option value="Neutral">Neutral Site</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label class="filter-label" for="searchInput">Search</label>
-                            <input type="text" id="searchInput" class="filter-input" placeholder="Search any field...">
-                        </div>
-                    </div>
-                    <div class="filter-buttons">
-                        <button id="applyFiltersBtn" class="btn btn-primary">Apply Filters</button>
-                        <button id="resetFiltersBtn" class="btn btn-secondary">Reset Filters</button>
-                    </div>
-                </div>
-
-                <!-- Data Table -->
-                <div class="table-container">
-                    <div class="table-controls">
-                        <div class="results-info" id="resultsInfo">Showing 0 of 0 games</div>
-                        <div class="per-page">
-                            <label for="perPageSelect">Show</label>
-                            <select id="perPageSelect" class="filter-select">
-                                <option value="10">10</option>
-                                <option value="25" selected>25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                                <option value="all">All</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="table-wrapper">
-                        <table class="data-table" id="gameTable">
-                            <thead>
-                                <tr>
-                                    <th data-sort="Year">Year</th>
-                                    <th data-sort="Date">Date</th>
-                                    <th data-sort="Opponent">Opponent</th>
-                                    <th data-sort="Result">Result</th>
-                                    <th>Score</th>
-                                    <th data-sort="Where">Location</th>
-                                    <th data-sort="Coach">Coach</th>
-                                </tr>
-                            </thead>
-                            <tbody id="gameTableBody">
-                                <tr>
-                                    <td colspan="7" class="loading">Loading game history...</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="pagination" id="pagination"></div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalWins">-</div>
+                <div class="stat-label">Wins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalLosses">-</div>
+                <div class="stat-label">Losses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalTies">-</div>
+                <div class="stat-label">Ties</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="winPercentage">-</div>
+                <div class="stat-label">Win Percentage</div>
             </div>
         </div>
-    </div
+
+        <!-- Filter Section - EXACT SAME STRUCTURE -->
+        <div class="filter-section">
+            <h2 class="section-title">Search & Filter Games</h2>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label class="filter-label" for="yearFilter">Year</label>
+                    <select id="yearFilter" class="filter-select">
+                        <option value="">All Years</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="opponentFilter">Opponent</label>
+                    <select id="opponentFilter" class="filter-select">
+                        <option value="">All Opponents</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="resultFilter">Result</label>
+                    <select id="resultFilter" class="filter-select">
+                        <option value="">All Results</option>
+                        <option value="W">Wins</option>
+                        <option value="L">Losses</option>
+                        <option value="T">Ties</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="coachFilter">Coach</label>
+                    <select id="coachFilter" class="filter-select">
+                        <option value="">All Coaches</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="locationTypeFilter">Game Type</label>
+                    <select id="locationTypeFilter" class="filter-select">
+                        <option value="">All Games</option>
+                        <option value="Home">Home Games</option>
+                        <option value="Away">Away Games</option>
+                        <option value="Neutral">Neutral Site</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label" for="searchInput">Search</label>
+                    <input type="text" id="searchInput" class="filter-input" placeholder="Search any field...">
+                </div>
+            </div>
+            <div class="filter-buttons">
+                <button id="applyFiltersBtn" class="btn btn-primary">Apply Filters</button>
+                <button id="resetFiltersBtn" class="btn btn-secondary">Reset Filters</button>
+            </div>
+        </div>
+
+        <!-- Data Table - EXACT SAME STRUCTURE -->
+        <div class="table-container">
+            <div class="table-controls">
+                <div class="results-info" id="resultsInfo">Showing 0 of 0 games</div>
+                <div class="per-page">
+                    <label for="perPageSelect">Show</label>
+                    <select id="perPageSelect" class="filter-select">
+                        <option value="10">10</option>
+                        <option value="25" selected>25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="all">All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="data-table" id="gameTable">
+                    <thead>
+                        <tr>
+                            <th data-sort="Year">Year</th>
+                            <th data-sort="Date">Date</th>
+                            <th data-sort="Opponent">Opponent</th>
+                            <th data-sort="Result">Result</th>
+                            <th>Score</th>
+                            <th data-sort="Where">Location</th>
+                            <th data-sort="Coach">Coach</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gameTableBody">
+                        <tr>
+                            <td colspan="7" class="loading">Loading game history...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <!-- Footer Section - EXACT SAME STRUCTURE -->
+    <footer class="footer">
+        <div class="social-icons">
+            <a href="https://www.facebook.com/MCCardinalFootball" class="social-icon" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://x.com/MartinCoFball" class="social-icon" target="_blank">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+        <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
+    </footer>
+
+    <!-- EXACT SAME JAVASCRIPT - ZERO CHANGES -->
+    <script>
+        // Add helper function to format Excel dates
+        function formatDate(excelDate) {
+            // If the date is already in a string format that's not a number, return it as is
+            if (isNaN(excelDate) || typeof excelDate === 'string' && excelDate.includes('-')) {
+                return excelDate;
+            }
+            
+            // Excel dates are number of days since December 30, 1899
+            const millisecondsPerDay = 24 * 60 * 60 * 1000;
+            const jsDate = new Date((excelDate - 25569) * millisecondsPerDay); // 25569 is the offset for Jan 1, 1970
+            
+            // Format as MM/DD/YYYY
+            const month = jsDate.getMonth() + 1; // Month is 0-indexed
+            const day = jsDate.getDate();
+            
+            return `${month}/${day}`;
+        }
+    
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            menuToggle.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            });
+            
+            // Close menu when a link is clicked
+            const navLinks = document.querySelectorAll('.nav-menu li a');
+            nav
