@@ -3,214 +3,625 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player Profile Coming Soon - Martin County Cardinals</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <title>[Player Name] - Martin County Cardinals</title>
+    <meta name="description" content="[Player Name] - [Position], Class of [Year] - Martin County Cardinals Football player profile and recruiting information">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue:wght@400&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-red: #dc2626;
+            --columbia-blue: #87ceeb;
+            --dark-bg: #0a0a0a;
+            --dark-secondary: #1a1a1a;
+            --dark-card: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --accent-glow: rgba(220, 38, 38, 0.3);
+            --blue-glow: rgba(135, 206, 235, 0.2);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
         }
 
         body {
-            background-color: #f5f5f5;
-            color: #333;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* Header and Navigation */
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-red);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b91c1c;
+        }
+
+        /* Header with Glassmorphism Effect */
         .header {
-            background-color: #cf0a2c; /* Cardinal Red */
-            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            z-index: 101;
+            gap: 1rem;
+        }
+
+        .logo-container a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
         }
 
         .logo {
-            height: 60px;
+            height: 50px;
             width: auto;
-            margin-right: 0;
+            filter: drop-shadow(0 0 10px var(--accent-glow));
         }
 
-        /* Mobile Menu Styles */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 30px;
-            height: 21px;
-            cursor: pointer;
-            z-index: 101;
+        .logo-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--primary-red), var(--columbia-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .menu-toggle span {
-            display: block;
-            height: 3px;
-            width: 100%;
-            background-color: white;
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-
+        /* Navigation */
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.5rem;
+            align-items: center;
         }
 
         .nav-menu li a {
-            color: white;
+            color: var(--text-primary);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 0.9rem;
             padding: 0.5rem 0;
-            transition: all 0.3s ease;
             position: relative;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Inter', sans-serif;
         }
 
-        .nav-menu li a:hover {
-            color: #aed4e6; /* Powder Blue */
-        }
-
-        .nav-menu li a::after {
+        .nav-menu li a::before {
             content: '';
             position: absolute;
             bottom: -2px;
             left: 0;
             width: 0%;
             height: 2px;
-            background-color: #aed4e6; /* Powder Blue */
+            background: linear-gradient(90deg, var(--primary-red), var(--columbia-blue));
             transition: width 0.3s ease;
         }
 
-        .nav-menu li a:hover::after {
+        .nav-menu li a:hover::before,
+        .nav-menu li a.active::before {
             width: 100%;
         }
 
+        .nav-menu li a:hover,
         .nav-menu li a.active {
-            color: #aed4e6; /* Powder Blue */
+            color: var(--columbia-blue);
         }
 
-        .nav-menu li a.active::after {
-            width: 100%;
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s ease;
         }
 
         .search-icon {
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: white;
-            z-index: 101;
+            display: none;
         }
 
-        /* Coming Soon Container */
-        .coming-soon-container {
-            max-width: 800px;
+        /* Main Content */
+        .main-content {
+            padding-top: 100px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
+        }
+
+        /* Player Profile Container */
+        .profile-container {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 3rem 2rem;
-            text-align: center;
+            padding: 2rem;
         }
 
+        /* Back Button */
         .back-button {
-            display: inline-block;
-            background-color: #333;
-            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
             padding: 0.75rem 1.5rem;
             text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
             margin-bottom: 2rem;
-            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .back-button:hover {
-            background-color: #555;
+            background: var(--primary-red);
+            transform: translateX(-5px);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.2);
         }
 
-        .coming-soon-card {
-            background-color: white;
-            border-radius: 10px;
-            padding: 3rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
+        /* Player Header Section */
+        .player-header {
+            background: var(--dark-card);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
         }
 
-        .coming-soon-icon {
-            font-size: 4rem;
-            color: #cf0a2c;
-            margin-bottom: 1.5rem;
+        .player-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-red), var(--columbia-blue));
         }
 
-        .coming-soon-title {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 1rem;
-        }
-
-        .coming-soon-message {
-            font-size: 1.1rem;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .coming-soon-timeline {
-            font-weight: bold;
-            color: #cf0a2c;
-        }
-
-        /* Footer Section */
-        .footer {
-            background-color: #333;
-            color: white;
-            padding: 2rem;
+        .player-name-banner {
+            background: linear-gradient(135deg, var(--primary-red), #b91c1c);
+            color: var(--text-primary);
+            padding: 2rem 0;
             text-align: center;
-            margin-top: 3rem;
+            position: relative;
+        }
+
+        .player-name-banner h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .player-name-banner .number {
+            font-size: 1.3rem;
+            font-weight: 500;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .player-photo-container {
+            height: 500px;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), var(--dark-secondary);
+            background-size: cover;
+            background-position: center top;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-placeholder {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        /* Player Info Section */
+        .player-info-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .info-card {
+            background: var(--dark-card);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-red), var(--columbia-blue));
+            border-radius: 15px 15px 0 0;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .info-card h2 {
+            font-family: 'Bebas Neue', cursive;
+            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Player Stats */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .stat-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            color: var(--columbia-blue);
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .placeholder-text {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* College Offers Section */
+        .college-offers {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(135, 206, 235, 0.1));
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .college-offers::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-red), var(--columbia-blue));
+        }
+
+        .college-offers h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+        }
+
+        .offers-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .offer-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            border-left: 4px solid var(--columbia-blue);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .offer-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .offer-item::before {
+            content: '🎓';
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .recruiting-note {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Awards Section */
+        .awards-list {
+            list-style-type: none;
+        }
+
+        .awards-list li {
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border-left: 3px solid var(--columbia-blue);
+            position: relative;
+            padding-left: 3rem;
+            transition: all 0.3s ease;
+        }
+
+        .awards-list li:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(3px);
+        }
+
+        .awards-list li::before {
+            content: '🏆';
+            position: absolute;
+            left: 1rem;
+            top: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        /* Video & Highlights */
+        .video-container {
+            margin-bottom: 2rem;
+        }
+
+        .video-container h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .video-container p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .hudl-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-red), #b91c1c);
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hudl-button:hover {
+            background: linear-gradient(135deg, #b91c1c, #991b1b);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            margin-bottom: 3rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--primary-red);
+            color: var(--text-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .contact-info {
+            margin-top: 1.5rem;
+        }
+
+        .contact-item {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .contact-label {
+            font-weight: 600;
+            margin-right: 0.5rem;
+            color: var(--columbia-blue);
+        }
+
+        .contact-item a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--columbia-blue);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-card);
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--columbia-blue), transparent);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         .social-icons {
             display: flex;
             justify-content: center;
             gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .social-icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: #cf0a2c; /* Cardinal Red */
-            color: white;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
             border-radius: 50%;
             text-decoration: none;
             transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.2rem;
         }
 
         .social-icon:hover {
-            background-color: #aed4e6; /* Powder Blue */
+            background: var(--primary-red);
+            color: var(--text-primary);
             transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
         }
 
         .footer-text {
             font-size: 0.9rem;
-            opacity: 0.7;
+            color: var(--text-secondary);
+            font-weight: 300;
         }
 
-        /* Media Queries */
+        /* Responsive Design */
         @media (max-width: 768px) {
             .menu-toggle {
                 display: flex;
@@ -218,17 +629,17 @@
             
             .nav-menu {
                 position: fixed;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
                 top: 0;
                 right: -100%;
                 width: 100%;
                 height: 100vh;
-                background-color: #cf0a2c;
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 gap: 2rem;
                 transition: right 0.3s ease;
-                z-index: 100;
             }
             
             .nav-menu.active {
@@ -236,12 +647,12 @@
             }
             
             .nav-menu li a {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
+                font-weight: 700;
             }
             
-            /* Menu toggle animation */
             .menu-toggle.active span:nth-child(1) {
-                transform: translateY(9px) rotate(45deg);
+                transform: rotate(45deg) translate(5px, 5px);
             }
             
             .menu-toggle.active span:nth-child(2) {
@@ -249,83 +660,234 @@
             }
             
             .menu-toggle.active span:nth-child(3) {
-                transform: translateY(-9px) rotate(-45deg);
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            .profile-container {
+                padding: 1rem;
             }
             
-            .coming-soon-card {
-                padding: 2rem 1.5rem;
+            .player-info-section {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .player-photo-container {
+                height: 350px;
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .offers-list {
+                gap: 0.75rem;
+            }
+
+            .offer-item {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .info-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stat-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header and Navigation -->
-    <header class="header">
-        <div class="logo-container">
-            <img src="../images/teamlogo.png" alt="Cardinals Logo" class="logo">
-        </div>
-        
-        <div class="menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
-        <nav>
-            <ul class="nav-menu">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../schedule.html">Schedule</a></li>
-                <li><a href="../roster.html" class="active">Roster</a></li>
-                <li><a href="../staff.html">Staff</a></li>
-                <li><a href="../history.html">History</a></li>
-            </ul>
-        </nav>
-        
-        <div class="search-icon">
-            <i class="fas fa-search"></i>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-content">
+            <div class="logo-container">
+                <a href="../index.html">
+                    <img src="../images/teamlogo.png" alt="Cardinals Logo" class="logo">
+                    <span class="logo-text">MARTIN COUNTY</span>
+                </a>
+            </div>
+            
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../schedule.html">Schedule</a></li>
+                    <li><a href="../roster.html" class="active">Roster</a></li>
+                    <li><a href="../staff.html">Staff</a></li>
+                    <li><a href="../history.html">History</a></li>
+                </ul>
+            </nav>
+            
+            <div class="search-icon">
+                <i class="fas fa-search"></i>
+            </div>
         </div>
     </header>
 
-    <!-- Coming Soon Container -->
-    <div class="coming-soon-container">
-        <a href="../roster.html" class="back-button">
-            <i class="fas fa-arrow-left"></i> Back to Roster
-        </a>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="profile-container">
+            <a href="../roster.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Roster
+            </a>
 
-        <div class="coming-soon-card">
-            <div class="coming-soon-icon">
-                <i class="fas fa-user-circle"></i>
+            <!-- Player Header -->
+            <div class="player-header">
+                <div class="player-name-banner">
+                    <h1>[Player Name]</h1>
+                    <div class="number">#[Number] | [Position] | Class of [Year]</div>
+                </div>
+                <div class="player-photo-container">
+                    <div class="photo-placeholder">
+                        <i class="fas fa-user" style="font-size: 4rem; margin-bottom: 1rem; display: block;"></i>
+                        Player Photo Goes Here
+                    </div>
+                </div>
             </div>
-            <h1 class="coming-soon-title">Player Profile Coming Soon</h1>
-            <p class="coming-soon-message">
-                We're currently building this player's profile with stats, highlights, and information for fans and recruiters.
-                Check back soon to learn more about this Cardinal athlete!
-            </p>
-            <p class="coming-soon-timeline">
-                Expected completion: Spring 2025
-            </p>
+
+            <!-- Player Info Section -->
+            <div class="player-info-section">
+                <!-- Athletic Profile -->
+                <div class="info-card">
+                    <h2>Athletic Profile</h2>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Height</div>
+                            <div class="stat-value placeholder-text">[Height]</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Weight</div>
+                            <div class="stat-value placeholder-text">[Weight]</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">40-Yard Dash</div>
+                            <div class="stat-value placeholder-text">[Time]</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Position</div>
+                            <div class="stat-value placeholder-text">[Position]</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Graduation</div>
+                            <div class="stat-value placeholder-text">[Year]</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Status</div>
+                            <div class="stat-value placeholder-text">[Grade]</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accolades & Achievements -->
+                <div class="info-card">
+                    <h2>Accolades & Achievements</h2>
+                    <ul class="awards-list">
+                        <li class="placeholder-text">[Achievement 1]</li>
+                        <li class="placeholder-text">[Achievement 2]</li>
+                        <li class="placeholder-text">[Achievement 3]</li>
+                        <li class="placeholder-text">[Achievement 4]</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- College Offers Section -->
+            <div class="info-card">
+                <h2>College Recruiting</h2>
+                <div class="college-offers">
+                    <h3>Current Offers</h3>
+                    <ul class="offers-list">
+                        <li class="offer-item placeholder-text">[College/University Name 1]</li>
+                        <li class="offer-item placeholder-text">[College/University Name 2]</li>
+                        <li class="offer-item placeholder-text">[College/University Name 3]</li>
+                    </ul>
+                </div>
+                <div class="recruiting-note placeholder-text">
+                    [Recruiting status or additional notes]
+                </div>
+            </div>
+
+            <!-- Highlights & Film -->
+            <div class="info-card">
+                <h2>Highlights & Film</h2>
+                <div class="video-container">
+                    <h3>Game Highlights</h3>
+                    <p class="placeholder-text">View [Player Name]'s complete highlight collection on Hudl:</p>
+                    <a href="[Hudl URL]" target="_blank" class="hudl-button">
+                        <i class="fas fa-play-circle"></i> Watch Highlights
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contact & Recruiting Info -->
+            <div class="info-card contact-section">
+                <h2>Contact & Recruiting Information</h2>
+                <div class="social-links">
+                    <a href="[Twitter URL]" target="_blank" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="[Hudl URL]" target="_blank" class="social-link">
+                        <i class="fas fa-film"></i>
+                    </a>
+                    <a href="[Instagram URL]" target="_blank" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-label">Twitter:</span>
+                        <a href="[Twitter URL]" target="_blank" class="placeholder-text">[@TwitterHandle]</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">Instagram:</span>
+                        <a href="[Instagram URL]" target="_blank" class="placeholder-text">[@InstagramHandle]</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">Hudl:</span>
+                        <a href="[Hudl URL]" target="_blank" class="placeholder-text">[Hudl Profile URL]</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">For Recruiting Inquiries:</span>
+                        <span>Please contact Coach Josh Muncy or Coach Josh Horn.</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Footer Section -->
+    <!-- Footer -->
     <footer class="footer">
-        <div class="social-icons">
-            <a href="https://www.facebook.com/MCCardinalFootball" class="social-icon" target="_blank">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://x.com/MartinCoFball" class="social-icon" target="_blank">
-                <i class="fab fa-twitter"></i>
-            </a>
+        <div class="footer-content">
+            <div class="social-icons">
+                <a href="https://www.facebook.com/MCCardinalFootball" class="social-icon" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://x.com/MartinCoFball" class="social-icon" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+            <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
         </div>
-        <p class="footer-text">© 2025 Martin County Cardinals Football. All Rights Reserved.</p>
     </footer>
 
     <script>
-        // Mobile menu toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navMenu = document.querySelector('.nav-menu');
+            // Enhanced mobile menu functionality
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.getElementById('navMenu');
+            const header = document.getElementById('header');
             
+            // Mobile menu toggle
             if (menuToggle && navMenu) {
                 menuToggle.addEventListener('click', function() {
                     navMenu.classList.toggle('active');
@@ -341,6 +903,15 @@
                     });
                 });
             }
+
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
         });
     </script>
 </body>
