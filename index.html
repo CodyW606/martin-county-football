@@ -206,55 +206,11 @@
             line-height: 1.1;
         }
 
-        /* Game Date Styles */
-        .game-date-container {
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        .game-date-label {
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: var(--columbia-blue);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .game-date {
-            background: rgba(220, 38, 38, 0.1);
-            border: 1px solid rgba(220, 38, 38, 0.3);
-            border-radius: 15px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-
-        .game-date:hover {
-            background: rgba(220, 38, 38, 0.2);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(220, 38, 38, 0.3);
-        }
-
-        .date-main {
-            display: block;
-            font-family: 'Bebas Neue', cursive;
-            font-size: 2.5rem;
-            font-weight: 400;
-            color: var(--text-primary);
-            line-height: 1;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            letter-spacing: 2px;
-        }
-
-        .date-time {
-            display: block;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--columbia-blue);
-            text-transform: uppercase;
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
             letter-spacing: 1px;
         }
 
@@ -289,155 +245,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        /* Main Content */
-        .main-content {
-            position: relative;
-            padding: 6rem 0;
-            background: linear-gradient(180deg, var(--dark-bg) 0%, var(--dark-secondary) 100%);
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* News Section */
-        .news-section {
-            margin-bottom: 4rem;
-        }
-
-        .section-title {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 3.5rem;
-            font-weight: 400;
-            text-align: center;
-            margin-bottom: 3rem;
-            letter-spacing: 2px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-red), var(--columbia-blue));
-            border-radius: 2px;
-        }
-
-        .news-card {
-            background: var(--dark-card);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        .news-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-red), var(--columbia-blue));
-        }
-
-        .news-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-            border-color: rgba(135, 206, 235, 0.2);
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            min-height: 400px;
-        }
-
-        .news-image {
-            background: linear-gradient(135deg, var(--dark-secondary), var(--dark-card));
-            position: relative;
-            overflow: hidden;
-        }
-
-        .news-image::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background: var(--primary-red);
-            border-radius: 50%;
-            opacity: 0.1;
-        }
-
-        .news-content {
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .news-date {
-            font-size: 0.9rem;
-            color: var(--columbia-blue);
-            font-weight: 500;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .news-title {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 2.5rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            letter-spacing: 1px;
-            line-height: 1.2;
-        }
-
-        .news-excerpt {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-
-        .read-more {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: linear-gradient(135deg, var(--primary-red), #b91c1c);
-            color: var(--text-primary);
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .read-more:hover {
-            background: transparent;
-            border-color: var(--primary-red);
-            color: var(--primary-red);
-            transform: translateX(5px);
         }
 
         /* Footer */
@@ -544,47 +351,9 @@
             .hero {
                 background-attachment: scroll;
             }
-            
-            .news-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .news-image {
-                min-height: 200px;
-            }
-            
-            .news-content {
-                padding: 2rem;
-            }
-            
-            .section-title {
-                font-size: 2.5rem;
-            }
 
-            .game-date {
-                padding: 1.5rem;
-            }
-
-            .date-main {
-                font-size: 2rem;
-            }
-
-            .date-time {
-                font-size: 1rem;
-            }
-        }
-
-        /* Subtle animations */
-        .news-card {
-            animation: slideInUp 0.6s ease-out forwards;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        @keyframes slideInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .hero-subtitle {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -620,41 +389,9 @@
     <section class="hero">
         <div class="hero-content">
             <h1 class="hero-title">RESTORE THE ROCK</h1>
-            <div class="game-date-container">
-                <p class="game-date-label">Season Opener</p>
-                <div class="game-date">
-                    <span class="date-main">AUGUST 22, 2025</span>
-                    <span class="date-time">7:00 PM EST</span>
-                </div>
-            </div>
+            <p class="hero-subtitle">Welcome to the home of Martin County Cardinals Football</p>
             <img src="images/teamlogo.png" alt="Cardinals Logo" class="team-logo-hero">
             <p class="sponsor-text">Message us today to find out how to get your logo here!</p>
-        </div>
-    </section>
-
-    <!-- Main Content -->
-    <section class="main-content">
-        <div class="container">
-            <!-- News Section -->
-            <section class="news-section">
-                <h2 class="section-title">Latest News</h2>
-                <div class="news-card">
-                    <div class="news-grid">
-                        <div class="news-image"></div>
-                        <div class="news-content">
-                            <div class="news-date">January 9th, 2025</div>
-                            <h3 class="news-title">Three Cardinals Named to All State</h3>
-                            <p class="news-excerpt">
-                                Congratulations to our Kentucky All State Team selections. Junior Devan Maynard and Sophomore Crayson "Bones" Lafferty were named to the defensive team, while Senior Damian Cheek was named an honorable mention punter. Thank you for adding to the storied history of Cardinal Football.
-                            </p>
-                            <a href="roster.html" class="read-more">
-                                Congratulations
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
     </section>
 
@@ -703,26 +440,6 @@
                     header.classList.remove('scrolled');
                 }
             });
-            
-            // Animate news card on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.animationDelay = '0.2s';
-                        entry.target.style.animationPlayState = 'running';
-                    }
-                });
-            }, observerOptions);
-            
-            const newsCard = document.querySelector('.news-card');
-            if (newsCard) {
-                observer.observe(newsCard);
-            }
         });
     </script>
 </body>
